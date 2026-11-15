@@ -28,6 +28,8 @@ final class VoiceSession {
   var manualRecording = false
   /// 界面上展示的实时诊断信息
   var debugLine = ""
+  /// 当前音频输出路由（外放 / 耳机 / AirPlay / 蓝牙），用来确认声音去哪了
+  var routeText = ""
 
   private var lastDebugAt = Date.distantPast
   var userText = ""
@@ -61,6 +63,7 @@ final class VoiceSession {
   private var frameCount = 0
   private var lastRms: Double = 0
   private var loggedFirstDelta = false
+  private var routeObserver: NSObjectProtocol?
 
   // 回答回合
   private var turnActive = false
@@ -294,13 +297,39 @@ final class VoiceSession {
     input.installTap(onBus: 0, bufferSize: 1_024, format: hardwareFormat) { [weak self] buffer, _ in
       self?.handleHardwareBuffer(buffer)
     }
-    DLog.log("mic format sr=\(hardwareFormat.sampleRate) ch=\(hardwareFormat.channelCount) route=\(AVAudioSession.sharedInstance().currentRoute.inputs.first?.portName ?? "?")")
+    DLog.log("mic format sr=\(hardwareFormat.sampleRate) ch=\(hardwareFormat.channelCount)")
+    logAudioRoute()
+    observeRouteChanges()
 
     engine.prepare()
     try engine.start()
     player.play()
     // 开始通话时播一个短提示音，顺便验证扬声器通路
     playBeep()
+  }
+
+  /// 记录并展示当前音频路由，方便确认声音是外放还是被 AirPlay / 蓝牙 / 电脑接走
+  private func logAudioRoute() {
+    let session = AVAudioSession.sharedInstance()
+    let outputs = session.currentRoute.outputs
+      .map { "\($0.portType.rawValue):\($0.portName)" }
+      .joined(separator: ", ")
+    let inputs = session.currentRoute.inputs
+      .map { "\($0.portType.rawValue):\($0.portName)" }
+      .joined(separator: ", ")
+    DLog.log("audio route out=[\(outputs)] in=[\(inputs)]")
+    routeText = "输出：\(outputs.isEmpty ? "未知" : outputs)"
+  }
+
+  private func observeRouteChanges() {
+    guard routeObserver == nil else { return }
+    routeObserver = NotificationCenter.default.addObserver(
+      forName: AVAudioSession.routeChangeNotification,
+      object: nil,
+      queue: .main
+    ) { [weak self] _ in
+      Task { @MainActor in self?.logAudioRoute() }
+    }
   }
 
   /// 880 Hz / 150 ms 的提示音
@@ -334,6 +363,10 @@ final class VoiceSession {
     }
     Self.converterBox.value = nil
     Self.inputFormatBox.value = nil
+    if let routeObserver {
+      NotificationCenter.default.removeObserver(routeObserver)
+      self.routeObserver = nil
+    }
     try? AVAudioSession.sharedInstance().setActive(false, options: [.notifyOthersOnDeactivation])
   }
 

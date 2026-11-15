@@ -25,6 +25,13 @@ struct VoiceCallView: View {
           .font(.system(size: 9, design: .monospaced))
           .foregroundStyle(.tertiary)
           .padding(.top, 4)
+        if !session.routeText.isEmpty {
+          Text(session.routeText)
+            .font(.system(size: 9, design: .monospaced))
+            .foregroundStyle(.secondary)
+            .multilineTextAlignment(.center)
+            .padding(.horizontal, 24)
+        }
         if let errorText = session.errorText {
           Text(errorText)
             .font(.footnote)
