@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # 把构建好的 App 装进模拟器、启动并截图，用于快速验证 iOS 端的改动。
 #
-# 用法：bash scripts/ios-sim.sh [模拟器名称，默认 "iPhone 18 Pro"]
+# 用法：bash scripts/ios-sim.sh [模拟器名称或 UDID，默认 AICD-Sim]
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-DEVICE="${1:-iPhone 18 Pro}"
+DEVICE="${1:-${SIM_DEVICE:-AICD-Sim}}"
 APP_PATH=".derivedData/Build/Products/Debug-iphonesimulator/App.app"
 BUNDLE_ID="com.aicd.deepseekchat"
 SHOT_DIR="${SHOT_DIR:-.screenshots}"

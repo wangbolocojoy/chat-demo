@@ -11,7 +11,6 @@ build/
 tmp/
 
 # Capacitor / Xcode 构建产物
-.derivedData/
-.derivedDataUITests/
+.derivedData*/
 .screenshots/
 ios/App/build/
