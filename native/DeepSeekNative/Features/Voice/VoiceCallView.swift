@@ -25,6 +25,13 @@ struct VoiceCallView: View {
           .font(.system(size: 9, design: .monospaced))
           .foregroundStyle(.tertiary)
           .padding(.top, 4)
+        if session.isMirroring {
+          Text("检测到屏幕镜像/投屏：系统会把声音送到电脑，手机上不会有声音")
+            .font(.system(size: 11, weight: .medium))
+            .foregroundStyle(.orange)
+            .multilineTextAlignment(.center)
+            .padding(.horizontal, 24)
+        }
         Text("听不到声音时，把手机侧面音量调大")
           .font(.system(size: 9))
           .foregroundStyle(.tertiary)

@@ -31,6 +31,8 @@ final class VoiceSession {
   var debugLine = ""
   /// 当前音频输出路由（外放 / 耳机 / AirPlay / 蓝牙），用来确认声音去哪了
   var routeText = ""
+  /// 是否正在被投屏/镜像（iPhone 镜像、AirPlay 时会为 true，声音会从电脑播）
+  var isMirroring = false
 
   private var lastDebugAt = Date.distantPast
   var userText = ""
@@ -333,8 +335,10 @@ final class VoiceSession {
       .joined(separator: ", ")
     let volume = session.outputVolume
     let silentHint = session.secondaryAudioShouldBeSilencedHint
+    isMirroring = UIScreen.main.isCaptured
+    let screenCount = UIScreen.screens.count
     DLog.log(
-      "audio route out=[\(outputs)] in=[\(inputs)] outputVolume=\(String(format: "%.2f", volume)) silentHint=\(silentHint)"
+      "audio route out=[\(outputs)] in=[\(inputs)] outputVolume=\(String(format: "%.2f", volume)) silentHint=\(silentHint) mirrored=\(UIScreen.main.isCaptured) screens=\(screenCount)"
     )
     routeText = "输出：\(outputs.isEmpty ? "未知" : outputs)  音量 \(String(format: "%.0f%%", volume * 100))"
   }
@@ -347,6 +351,16 @@ final class VoiceSession {
       queue: .main
     ) { [weak self] _ in
       Task { @MainActor in self?.logAudioRoute() }
+    }
+    NotificationCenter.default.addObserver(
+      forName: UIScreen.capturedDidChangeNotification,
+      object: nil,
+      queue: .main
+    ) { [weak self] _ in
+      Task { @MainActor in
+        DLog.log("screen capture state changed captured=\(UIScreen.main.isCaptured)")
+        self?.logAudioRoute()
+      }
     }
   }
 
