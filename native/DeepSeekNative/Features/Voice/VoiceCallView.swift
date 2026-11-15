@@ -175,7 +175,7 @@ struct VoiceCallView: View {
   }
 
   private var footer: some View {
-    HStack(spacing: 44) {
+    HStack(spacing: 18) {
       Button {
         session.setMuted(!session.muted)
       } label: {
@@ -191,6 +191,17 @@ struct VoiceCallView: View {
       .accessibilityIdentifier("toggle-mute")
 
       talkButton
+
+      Button {
+        session.playBeep()
+      } label: {
+        Image(systemName: "speaker.wave.2.fill")
+          .font(.system(size: 18))
+          .foregroundStyle(.primary)
+          .frame(width: 52, height: 52)
+          .background(Color(uiColor: .secondarySystemBackground), in: Circle())
+      }
+      .accessibilityIdentifier("test-beep")
 
       Button {
         session.stop()

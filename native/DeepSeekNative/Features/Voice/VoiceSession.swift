@@ -64,6 +64,7 @@ final class VoiceSession {
   private var utterance: [Int16] = []
   private var utteranceMs = 0
   private var frameCount = 0
+  private var playedChunks = 0
   private var lastRms: Double = 0
   private var loggedFirstDelta = false
   private var routeObserver: NSObjectProtocol?
@@ -704,8 +705,17 @@ final class VoiceSession {
         channel[index] = max(-1, min(1, sample))
       }
     }
+    if !player.isPlaying {
+      player.play()
+      DLog.log("player restarted isPlaying=\(player.isPlaying) engine=\(engine.isRunning)")
+    }
     player.scheduleBuffer(buffer, completionHandler: nil)
-    if !player.isPlaying { player.play() }
+    playedChunks += 1
+    if playedChunks <= 3 || playedChunks % 20 == 0 {
+      DLog.log(
+        "play chunk #\(playedChunks) frames=\(frameCount) engine=\(engine.isRunning) player=\(player.isPlaying) volume=\(String(format: "%.2f", AVAudioSession.sharedInstance().outputVolume))"
+      )
+    }
     let duration = Double(frameCount) / 24_000
     let now = Date().timeIntervalSince1970
     audioClock = max(now, audioClock) + duration
