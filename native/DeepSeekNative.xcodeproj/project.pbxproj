@@ -1,0 +1,416 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		279DEFAC6F62AD51690B5283 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B6EBC6CE19A0EDF683554B /* Settings.swift */; };
+		377773C80EC4B1855BC06D5E /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205DB6A52B5E8F7E3FF5D8B7 /* Keychain.swift */; };
+		41A4DFBDD3F7A7BD2777245F /* AppIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAA280C0ADA74AEA3BE5D03 /* AppIntents.swift */; };
+		4F4AEF2BF0130F9A13B6B53F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F688AAAC75B6B02BFAA09864 /* Assets.xcassets */; };
+		5200A9268601A15263A1B9B7 /* ChatStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD956A99AD7127ABA41E3C5 /* ChatStore.swift */; };
+		599523ABF722CFAE1C764133 /* SSEDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D48D86F214237478A8581C /* SSEDecoder.swift */; };
+		83F4C34E92BF04F7FF10A346 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D8EE4762599D40DC292A2B /* SettingsView.swift */; };
+		83F797370B0F6440AC72CF45 /* VoiceCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFDAC28DBE6A5C6CC74E474 /* VoiceCallView.swift */; };
+		ADEEB6460C2BD2D842431ECF /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4AD11DFD9082F25CBB6945 /* ChatView.swift */; };
+		B54864164A1AFE0541B76070 /* VoiceSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = C597CF0D10F0342885610BB5 /* VoiceSession.swift */; };
+		B9F697814C8FD3FF113859D4 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57612326A10398660AB04D4 /* Models.swift */; };
+		BCE775F4C8B9DDA1E4AF2610 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56F186BB7EA2CDB348B1D8F /* APIClient.swift */; };
+		BD3F7591F0E08AC92AC3DA33 /* DeepSeekNativeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17CBB0F26402CF768B4A19F /* DeepSeekNativeApp.swift */; };
+		DD39BDA13F1516FC1A87656B /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E4A70E45B5740D8BDD470E /* RootView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		08D8EE4762599D40DC292A2B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		13DFA59AD63161ED55928CD0 /* DeepSeekNative.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = DeepSeekNative.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B13FBACCA045499BAE5682E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		205DB6A52B5E8F7E3FF5D8B7 /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
+		4FD956A99AD7127ABA41E3C5 /* ChatStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatStore.swift; sourceTree = "<group>"; };
+		69B6EBC6CE19A0EDF683554B /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		A17CBB0F26402CF768B4A19F /* DeepSeekNativeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepSeekNativeApp.swift; sourceTree = "<group>"; };
+		A8E4A70E45B5740D8BDD470E /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		C56F186BB7EA2CDB348B1D8F /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		C597CF0D10F0342885610BB5 /* VoiceSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceSession.swift; sourceTree = "<group>"; };
+		D57612326A10398660AB04D4 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		D8D48D86F214237478A8581C /* SSEDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSEDecoder.swift; sourceTree = "<group>"; };
+		EA4AD11DFD9082F25CBB6945 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		EEFDAC28DBE6A5C6CC74E474 /* VoiceCallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceCallView.swift; sourceTree = "<group>"; };
+		F688AAAC75B6B02BFAA09864 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FFAA280C0ADA74AEA3BE5D03 /* AppIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntents.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		0A6BCB151F213B00D5C49A20 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				A17CBB0F26402CF768B4A19F /* DeepSeekNativeApp.swift */,
+				A8E4A70E45B5740D8BDD470E /* RootView.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		1FFE3B83F755D5F049F2E2A2 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				A9294E7165A273F8847379B1 /* Chat */,
+				695EF05D5B9A58AB92E709B3 /* Settings */,
+				AD973A3FD02BAA1AA0B7FC87 /* Voice */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		42425CC35B794F5C3CBD0004 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				13DFA59AD63161ED55928CD0 /* DeepSeekNative.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		695EF05D5B9A58AB92E709B3 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				08D8EE4762599D40DC292A2B /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		6BA2BE7F6E1DF3ABF5570240 /* DeepSeekNative */ = {
+			isa = PBXGroup;
+			children = (
+				1B13FBACCA045499BAE5682E /* Info.plist */,
+				0A6BCB151F213B00D5C49A20 /* App */,
+				EEF4F5CC971D2754586F4B20 /* Core */,
+				1FFE3B83F755D5F049F2E2A2 /* Features */,
+				C46376E488A882EEBEC20776 /* Resources */,
+				853C029F09C15C1D01413845 /* System */,
+			);
+			path = DeepSeekNative;
+			sourceTree = "<group>";
+		};
+		83A2C4DAEC434F092FB655BA = {
+			isa = PBXGroup;
+			children = (
+				6BA2BE7F6E1DF3ABF5570240 /* DeepSeekNative */,
+				42425CC35B794F5C3CBD0004 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		853C029F09C15C1D01413845 /* System */ = {
+			isa = PBXGroup;
+			children = (
+				FFAA280C0ADA74AEA3BE5D03 /* AppIntents.swift */,
+			);
+			path = System;
+			sourceTree = "<group>";
+		};
+		A9294E7165A273F8847379B1 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				EA4AD11DFD9082F25CBB6945 /* ChatView.swift */,
+			);
+			path = Chat;
+			sourceTree = "<group>";
+		};
+		AD973A3FD02BAA1AA0B7FC87 /* Voice */ = {
+			isa = PBXGroup;
+			children = (
+				EEFDAC28DBE6A5C6CC74E474 /* VoiceCallView.swift */,
+				C597CF0D10F0342885610BB5 /* VoiceSession.swift */,
+			);
+			path = Voice;
+			sourceTree = "<group>";
+		};
+		C46376E488A882EEBEC20776 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F688AAAC75B6B02BFAA09864 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		EEF4F5CC971D2754586F4B20 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				C56F186BB7EA2CDB348B1D8F /* APIClient.swift */,
+				4FD956A99AD7127ABA41E3C5 /* ChatStore.swift */,
+				205DB6A52B5E8F7E3FF5D8B7 /* Keychain.swift */,
+				D57612326A10398660AB04D4 /* Models.swift */,
+				69B6EBC6CE19A0EDF683554B /* Settings.swift */,
+				D8D48D86F214237478A8581C /* SSEDecoder.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		31559E1E782A5D3595570502 /* DeepSeekNative */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 331783386494CEEA72F45985 /* Build configuration list for PBXNativeTarget "DeepSeekNative" */;
+			buildPhases = (
+				BA6AB4F51E47FFF5F17212CB /* Sources */,
+				C9D77586972B31ACDB92C5F6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DeepSeekNative;
+			packageProductDependencies = (
+			);
+			productName = DeepSeekNative;
+			productReference = 13DFA59AD63161ED55928CD0 /* DeepSeekNative.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3EEF150F13C847F9E2E8703D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 2700;
+				TargetAttributes = {
+					31559E1E782A5D3595570502 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 406A26084FEC253CB5396F82 /* Build configuration list for PBXProject "DeepSeekNative" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 83A2C4DAEC434F092FB655BA;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 42425CC35B794F5C3CBD0004 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				31559E1E782A5D3595570502 /* DeepSeekNative */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C9D77586972B31ACDB92C5F6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F4AEF2BF0130F9A13B6B53F /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BA6AB4F51E47FFF5F17212CB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCE775F4C8B9DDA1E4AF2610 /* APIClient.swift in Sources */,
+				41A4DFBDD3F7A7BD2777245F /* AppIntents.swift in Sources */,
+				5200A9268601A15263A1B9B7 /* ChatStore.swift in Sources */,
+				ADEEB6460C2BD2D842431ECF /* ChatView.swift in Sources */,
+				BD3F7591F0E08AC92AC3DA33 /* DeepSeekNativeApp.swift in Sources */,
+				377773C80EC4B1855BC06D5E /* Keychain.swift in Sources */,
+				B9F697814C8FD3FF113859D4 /* Models.swift in Sources */,
+				DD39BDA13F1516FC1A87656B /* RootView.swift in Sources */,
+				599523ABF722CFAE1C764133 /* SSEDecoder.swift in Sources */,
+				279DEFAC6F62AD51690B5283 /* Settings.swift in Sources */,
+				83F4C34E92BF04F7FF10A346 /* SettingsView.swift in Sources */,
+				83F797370B0F6440AC72CF45 /* VoiceCallView.swift in Sources */,
+				B54864164A1AFE0541B76070 /* VoiceSession.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		4DEBB964AE737D76E15311EE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = DeepSeekNative/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.aicd.deepseeknative;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		9421167CC166D0E4E48DE5B3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		E648449C02459E23B2A00411 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = DeepSeekNative/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.aicd.deepseeknative;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		E99D49A6D88BA8C58CA85674 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		331783386494CEEA72F45985 /* Build configuration list for PBXNativeTarget "DeepSeekNative" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4DEBB964AE737D76E15311EE /* Debug */,
+				E648449C02459E23B2A00411 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		406A26084FEC253CB5396F82 /* Build configuration list for PBXProject "DeepSeekNative" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9421167CC166D0E4E48DE5B3 /* Debug */,
+				E99D49A6D88BA8C58CA85674 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3EEF150F13C847F9E2E8703D /* Project object */;
+}

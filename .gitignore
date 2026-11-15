@@ -14,3 +14,8 @@ tmp/
 .derivedData*/
 .screenshots/
 ios/App/build/
+
+# 原生客户端构建产物
+native/.derivedData*/
+native/.screenshots/
+native/build/

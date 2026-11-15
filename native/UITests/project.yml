@@ -1,0 +1,25 @@
+name: DeepSeekNativeUITests
+options:
+  bundleIdPrefix: com.aicd
+  deploymentTarget:
+    iOS: "17.0"
+targets:
+  DeepSeekNativeUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - Tests
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.aicd.deepseeknative.uitests
+        GENERATE_INFOPLIST_FILE: YES
+        CODE_SIGNING_ALLOWED: NO
+        SWIFT_VERSION: "5.9"
+schemes:
+  DeepSeekNativeUITests:
+    build:
+      targets:
+        DeepSeekNativeUITests: test
+    test:
+      targets:
+        - DeepSeekNativeUITests
