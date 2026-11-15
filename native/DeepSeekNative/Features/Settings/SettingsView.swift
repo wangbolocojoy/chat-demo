@@ -1,4 +1,5 @@
 import SwiftUI
+import UniformTypeIdentifiers
 
 /// 设置：API Key（Keychain）、接口地址、思考开关、朗读音色
 struct SettingsView: View {
@@ -8,6 +9,8 @@ struct SettingsView: View {
   @State private var baseURL = ""
   @State private var verifyMessage: String?
   @State private var verifying = false
+  @State private var shareItem: ShareItem?
+  @State private var showImporter = false
 
   var body: some View {
     NavigationStack {
@@ -41,6 +44,25 @@ struct SettingsView: View {
             get: { settings.thinkingEnabled },
             set: { settings.thinkingEnabled = $0 }
           ))
+          Toggle("联网搜索", isOn: Binding(
+            get: { settings.searchEnabled },
+            set: { settings.searchEnabled = $0 }
+          ))
+        }
+
+        Section {
+          Button("导出全部会话（JSON）") {
+            if let url = ChatStore.shared.exportJSONFile() {
+              shareItem = ShareItem(url: url)
+            }
+          }
+          Button("导入会话（JSON）") {
+            showImporter = true
+          }
+        } header: {
+          Text("导入导出")
+        } footer: {
+          Text("导出文件可以直接存到「文件」App 或分享出去；导入会按会话 ID 合并。")
         }
 
         Section("语音") {
@@ -90,6 +112,14 @@ struct SettingsView: View {
         apiKey = settings.apiKey
         baseURL = settings.apiBaseURL
       }
+      .sheet(item: $shareItem) { item in
+        ShareSheet(items: [item.url])
+      }
+      .fileImporter(isPresented: $showImporter, allowedContentTypes: [.json]) { result in
+        if case .success(let url) = result {
+          ChatStore.shared.importJSON(from: url)
+        }
+      }
     }
   }
 
@@ -115,4 +145,21 @@ struct SettingsView: View {
       verifyMessage = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
     }
   }
+}
+
+
+struct ShareItem: Identifiable {
+  let id = UUID()
+  let url: URL
+}
+
+/// 系统分享面板
+struct ShareSheet: UIViewControllerRepresentable {
+  let items: [Any]
+
+  func makeUIViewController(context: Context) -> UIActivityViewController {
+    UIActivityViewController(activityItems: items, applicationActivities: nil)
+  }
+
+  func updateUIViewController(_ controller: UIActivityViewController, context: Context) {}
 }

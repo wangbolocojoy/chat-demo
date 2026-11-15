@@ -67,6 +67,10 @@ class Handler(BaseHTTPRequestHandler):
     def do_POST(self) -> None:  # noqa: N802
         if self.path.startswith("/anthropic/v1/messages"):
             self.handle_messages()
+        elif self.path.startswith("/anthropic/v1/files"):
+            self._json(200, {"id": "file_mock_1", "type": "file", "filename": "image.jpg",
+                             "mime_type": "image/jpeg", "size_bytes": 1024,
+                             "created_at": "2026-01-01T00:00:00Z"})
         elif self.path.startswith("/v1/tools/asr"):
             # 假装识别到一句话，让语音链路能跑通
             self._json(200, {"request_id": "mock", "text": "你好，介绍一下你自己", "duration_ms": 2400})

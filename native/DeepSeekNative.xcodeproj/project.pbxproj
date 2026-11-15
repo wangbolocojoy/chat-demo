@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		14662D740EAB0E8D75E460A3 /* SharedConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748C4B097C0B3A25C686F102 /* SharedConfig.swift */; };
+		1E83A65E068FA2634E936C8D /* JSONValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A97DFD4056B850A8F0F0FA7 /* JSONValue.swift */; };
 		24C1DD01B16E5BF1B0D6DFAA /* WidgetsBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D76D06943B7057FB1E58880 /* WidgetsBundle.swift */; };
 		279DEFAC6F62AD51690B5283 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B6EBC6CE19A0EDF683554B /* Settings.swift */; };
 		2DEFA471F2631053EAD86983 /* DeepSeekWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 51E7B9D0B547AC270C8B329D /* DeepSeekWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -90,6 +91,7 @@
 		69B6EBC6CE19A0EDF683554B /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		726AFBBBB359BB4D012D0065 /* DeepSeekShareExt.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = DeepSeekShareExt.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		748C4B097C0B3A25C686F102 /* SharedConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedConfig.swift; sourceTree = "<group>"; };
+		9A97DFD4056B850A8F0F0FA7 /* JSONValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONValue.swift; sourceTree = "<group>"; };
 		A17CBB0F26402CF768B4A19F /* DeepSeekNativeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepSeekNativeApp.swift; sourceTree = "<group>"; };
 		A8E4A70E45B5740D8BDD470E /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		BA41A2AD67BABC5176CCC9CF /* QuickAskWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAskWidget.swift; sourceTree = "<group>"; };
@@ -248,6 +250,7 @@
 			children = (
 				C56F186BB7EA2CDB348B1D8F /* APIClient.swift */,
 				4FD956A99AD7127ABA41E3C5 /* ChatStore.swift */,
+				9A97DFD4056B850A8F0F0FA7 /* JSONValue.swift */,
 				205DB6A52B5E8F7E3FF5D8B7 /* Keychain.swift */,
 				D57612326A10398660AB04D4 /* Models.swift */,
 				69B6EBC6CE19A0EDF683554B /* Settings.swift */,
@@ -327,6 +330,27 @@
 				TargetAttributes = {
 					31559E1E782A5D3595570502 = {
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
+					};
+					6889504303919A3A7F6FE033 = {
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
+					};
+					C3A2D27C89CBB5F577A212F5 = {
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -396,6 +420,7 @@
 				5200A9268601A15263A1B9B7 /* ChatStore.swift in Sources */,
 				ADEEB6460C2BD2D842431ECF /* ChatView.swift in Sources */,
 				BD3F7591F0E08AC92AC3DA33 /* DeepSeekNativeApp.swift in Sources */,
+				1E83A65E068FA2634E936C8D /* JSONValue.swift in Sources */,
 				377773C80EC4B1855BC06D5E /* Keychain.swift in Sources */,
 				B9F697814C8FD3FF113859D4 /* Models.swift in Sources */,
 				CF743E6C31DAFE1908215099 /* RecentSessions.swift in Sources */,

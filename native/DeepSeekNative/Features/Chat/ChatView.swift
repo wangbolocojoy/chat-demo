@@ -1,9 +1,14 @@
+import PhotosUI
 import SwiftUI
+import UIKit
 
 /// 聊天主界面：消息列表 + 输入栏
 struct ChatView: View {
   @State private var store = ChatStore.shared
   @State private var draft = ""
+  @State private var picked: [ChatAttachment] = []
+  @State private var photoItem: PhotosPickerItem?
+  @State private var showPhotoPicker = false
   @FocusState private var inputFocused: Bool
 
   private let bottomAnchor = "bottom-anchor"
@@ -38,6 +43,9 @@ struct ChatView: View {
       ComposerBar(
         draft: $draft,
         isStreaming: store.isStreaming,
+        attachments: picked,
+        onPickImage: { showPhotoPicker = true },
+        onRemoveAttachment: { id in picked.removeAll { $0.id == id } },
         onSend: send,
         onStop: { store.stop() }
       )
@@ -45,15 +53,46 @@ struct ChatView: View {
     .navigationTitle(session?.displayTitle ?? "DeepSeek")
     .navigationBarTitleDisplayMode(.inline)
     .background(Color(uiColor: .systemBackground))
+    .photosPicker(isPresented: $showPhotoPicker, selection: $photoItem, matching: .images)
+    .onChange(of: photoItem) { _, item in
+      guard let item else { return }
+      Task { await loadPhoto(item) }
+    }
   }
 
   private func send() {
     let text = draft.trimmingCharacters(in: .whitespacesAndNewlines)
-    guard !text.isEmpty, !store.isStreaming else { return }
+    guard (!text.isEmpty || !picked.isEmpty), !store.isStreaming else { return }
+    let attachments = picked
     draft = ""
+    picked = []
     inputFocused = false
     Task {
-      await store.send(text)
+      await store.send(text, attachments: attachments)
+    }
+  }
+
+  /// 图片压缩到最长边 1568 再上传，避免请求体过大
+  private func loadPhoto(_ item: PhotosPickerItem) async {
+    defer { photoItem = nil }
+    guard let data = try? await item.loadTransferable(type: Data.self),
+      let image = UIImage(data: data)
+    else { return }
+    let maxSide: CGFloat = 1568
+    let scale = min(1, maxSide / max(image.size.width, image.size.height))
+    let size = CGSize(width: image.size.width * scale, height: image.size.height * scale)
+    let renderer = UIGraphicsImageRenderer(size: size)
+    let resized = renderer.image { _ in
+      image.draw(in: CGRect(origin: .zero, size: size))
+    }
+    guard let jpeg = resized.jpegData(compressionQuality: 0.82) else { return }
+    if let attachment = await store.uploadImage(
+      data: jpeg,
+      mimeType: "image/jpeg",
+      width: Int(size.width),
+      height: Int(size.height)
+    ) {
+      picked.append(attachment)
     }
   }
 
@@ -79,13 +118,26 @@ struct MessageRow: View {
     case .user:
       HStack {
         Spacer(minLength: 44)
-        Text(message.text)
-          .font(.body)
-          .foregroundStyle(.white)
-          .padding(.horizontal, 14)
-          .padding(.vertical, 10)
-          .background(brand, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
-          .textSelection(.enabled)
+        VStack(alignment: .trailing, spacing: 6) {
+          ForEach(message.attachments) { attachment in
+            if let data = attachment.thumbnail, let image = UIImage(data: data) {
+              Image(uiImage: image)
+                .resizable()
+                .scaledToFill()
+                .frame(maxWidth: 180, maxHeight: 180)
+                .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+            }
+          }
+          if !message.text.isEmpty {
+            Text(message.text)
+              .font(.body)
+              .foregroundStyle(.white)
+              .padding(.horizontal, 14)
+              .padding(.vertical, 10)
+              .background(brand, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+              .textSelection(.enabled)
+          }
+        }
       }
     case .assistant:
       VStack(alignment: .leading, spacing: 10) {
@@ -109,6 +161,20 @@ struct MessageRow: View {
       }
       .frame(maxWidth: .infinity, alignment: .leading)
       .textSelection(.enabled)
+      .contextMenu {
+        if message.status != .streaming {
+          Button {
+            Task { await ChatStore.shared.regenerate(answerID: message.id) }
+          } label: {
+            Label("重新生成", systemImage: "arrow.clockwise")
+          }
+          Button {
+            UIPasteboard.general.string = message.text
+          } label: {
+            Label("复制", systemImage: "doc.on.doc")
+          }
+        }
+      }
     }
   }
 }
@@ -262,16 +328,57 @@ struct MarkdownView: View {
 struct ComposerBar: View {
   @Binding var draft: String
   let isStreaming: Bool
+  var attachments: [ChatAttachment] = []
+  var onPickImage: () -> Void = {}
+  var onRemoveAttachment: (UUID) -> Void = { _ in }
   let onSend: () -> Void
   let onStop: () -> Void
   @FocusState private var focused: Bool
 
   private var canSend: Bool {
-    !draft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && !isStreaming
+    (!draft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || !attachments.isEmpty)
+      && !isStreaming
   }
 
   var body: some View {
-    HStack(alignment: .bottom, spacing: 10) {
+    VStack(alignment: .leading, spacing: 8) {
+      if !attachments.isEmpty {
+        ScrollView(.horizontal, showsIndicators: false) {
+          HStack(spacing: 8) {
+            ForEach(attachments) { attachment in
+              ZStack(alignment: .topTrailing) {
+                if let data = attachment.thumbnail, let image = UIImage(data: data) {
+                  Image(uiImage: image)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 56, height: 56)
+                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                }
+                Button {
+                  onRemoveAttachment(attachment.id)
+                } label: {
+                  Image(systemName: "xmark.circle.fill")
+                    .font(.system(size: 16))
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(.white, .black.opacity(0.6))
+                }
+                .offset(x: 4, y: -4)
+              }
+            }
+          }
+          .padding(.horizontal, 4)
+        }
+      }
+      HStack(alignment: .bottom, spacing: 10) {
+      Button {
+        onPickImage()
+      } label: {
+        Image(systemName: "photo")
+          .font(.system(size: 18))
+          .foregroundStyle(.secondary)
+          .frame(width: 36, height: 36)
+      }
+      .accessibilityIdentifier("pick-image")
       TextField("给 DeepSeek 发消息", text: $draft, axis: .vertical)
         .lineLimit(1...6)
         .focused($focused)
@@ -301,6 +408,7 @@ struct ComposerBar: View {
       }
       .disabled(!isStreaming && !canSend)
       .accessibilityIdentifier(isStreaming ? "stop-reply" : "send-message")
+      }
     }
     .padding(.horizontal, 14)
     .padding(.vertical, 10)

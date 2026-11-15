@@ -1,0 +1,37 @@
+name: DeepSeekWatch
+options:
+  bundleIdPrefix: com.aicd
+  deploymentTarget:
+    watchOS: "10.0"
+  createIntermediateGroups: true
+targets:
+  DeepSeekWatch:
+    type: application
+    platform: watchOS
+    sources:
+      - path: .
+        excludes:
+          - project.yml
+          - DeepSeekWatch.xcodeproj
+      - path: ../DeepSeekNative/Core/JSONValue.swift
+      - path: ../DeepSeekNative/Core/APIClient.swift
+      - path: ../DeepSeekNative/Core/Models.swift
+      - path: ../DeepSeekNative/Core/SSEDecoder.swift
+      - path: ../DeepSeekNative/Core/Settings.swift
+      - path: ../DeepSeekNative/Core/Keychain.swift
+    info:
+      path: Info.plist
+      properties:
+        CFBundleDisplayName: DeepSeek
+        CFBundleShortVersionString: "0.1.0"
+        CFBundleVersion: "1"
+        WKApplication: true
+        WKCompanionAppBundleIdentifier: com.aicd.deepseeknative
+        NSMicrophoneUsageDescription: 语音提问需要使用麦克风
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.aicd.deepseeknative.watchkitapp
+        TARGETED_DEVICE_FAMILY: "4"
+        SKIP_INSTALL: YES
+    scheme:
+      testTargets: []

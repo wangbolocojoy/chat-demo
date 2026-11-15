@@ -75,12 +75,23 @@ struct APIClient {
     let type: String
   }
 
+  struct ToolSpec: Encodable {
+    let type: String
+    let name: String
+  }
+
+  private struct SafetyCheck: Encodable {
+    let level: String
+  }
+
   private struct MessageRequestBody: Encodable {
     let model: String
     let system: String
     let messages: [WireMessage]
     let thinking: ThinkingParameter
     let stream: Bool
+    let tools: [ToolSpec]?
+    let safety_check: SafetyCheck?
   }
 
   /// 流式生成回答；每个内容增量回调一次，收到 message_stop 后结束
@@ -88,7 +99,8 @@ struct APIClient {
     system: String,
     messages: [WireMessage],
     model: String = "deepseek-flash",
-    thinking: Bool
+    thinking: Bool,
+    tools: [ToolSpec]? = nil
   ) -> AsyncThrowingStream<ChatStreamEvent, Error> {
     AsyncThrowingStream { continuation in
       let task = Task {
@@ -98,7 +110,9 @@ struct APIClient {
             system: system,
             messages: messages,
             thinking: ThinkingParameter(type: thinking ? "enabled" : "disabled"),
-            stream: true
+            stream: true,
+            tools: tools,
+            safety_check: SafetyCheck(level: "high")
           )
           let data = try JSONEncoder().encode(body)
           let request = makeRequest(
@@ -129,15 +143,27 @@ struct APIClient {
               throw APIError(message: message, status: nil)
             }
             switch payload["type"] as? String {
+            case "content_block_start":
+              guard
+                let index = payload["index"] as? Int,
+                let block = payload["content_block"]
+              else { return }
+              continuation.yield(.blockStart(index: index, block: JSONValue.from(block)))
+            case "content_block_stop":
+              guard let index = payload["index"] as? Int else { return }
+              continuation.yield(.blockStop(index: index))
             case "content_block_delta":
               guard
+                let index = payload["index"] as? Int,
                 let delta = payload["delta"] as? [String: Any],
                 let kind = delta["type"] as? String
               else { return }
               if kind == "text_delta", let text = delta["text"] as? String {
-                continuation.yield(.text(text))
+                continuation.yield(.text(index: index, text))
               } else if kind == "thinking_delta", let text = delta["thinking"] as? String {
-                continuation.yield(.thinking(text))
+                continuation.yield(.thinking(index: index, text))
+              } else if kind == "signature_delta", let signature = delta["signature"] as? String {
+                continuation.yield(.signature(index: index, signature: signature))
               }
             case "message_delta":
               guard let delta = payload["delta"] as? [String: Any] else { return }
@@ -187,6 +213,37 @@ struct APIClient {
       }
       continuation.onTermination = { _ in task.cancel() }
     }
+  }
+
+  // MARK: - 文件上传
+
+  /// 上传图片到 Files API，返回 file_id（消息里用 image 块引用）
+  func uploadImage(data: Data, mimeType: String, filename: String) async throws -> String {
+    let boundary = "----DeepSeekNative\(UUID().uuidString)"
+    var body = Data()
+    body.append("--\(boundary)\r\n".data(using: .utf8)!)
+    body.append(
+      "Content-Disposition: form-data; name=\"file\"; filename=\"\(filename)\"\r\n".data(using: .utf8)!
+    )
+    body.append("Content-Type: \(mimeType)\r\n\r\n".data(using: .utf8)!)
+    body.append(data)
+    body.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
+
+    var request = makeRequest(
+      path: "anthropic/v1/files",
+      contentType: "multipart/form-data; boundary=\(boundary)",
+      body: body
+    )
+    request.setValue("files-api-2025-04-14", forHTTPHeaderField: "anthropic-beta")
+    let (responseData, response) = try await session.data(for: request)
+    _ = try await validate(response)
+    guard
+      let payload = try? JSONSerialization.jsonObject(with: responseData) as? [String: Any],
+      let fileId = payload["id"] as? String
+    else {
+      throw APIError(message: "上传结果格式异常", status: nil)
+    }
+    return fileId
   }
 
   // MARK: - 语音识别
