@@ -79,8 +79,9 @@ final class VoiceSession {
   private var audioClock: TimeInterval = 0
 
   private let frameMs = 32
-  private let bargeThreshold = 0.032
-  private let speechThreshold = 0.012
+  private let bargeThreshold = 0.03
+  /// 说话阈值下限调低，真机上麦克风增益偏小时也能断句
+  private let speechThreshold = 0.004
 
   // MARK: - 生命周期
 
@@ -478,7 +479,7 @@ final class VoiceSession {
   }
 
   private func handleListenFrame(_ samples: [Int16], rms: Double) {
-    let speakingNow = rms > max(noiseFloor * 2.5, speechThreshold)
+    let speakingNow = rms > max(noiseFloor * 3, speechThreshold)
     if !capturing {
       if speakingNow {
         speechMs += frameMs
@@ -755,8 +756,19 @@ final class VoiceSession {
     return (sum / Double(samples.count)).squareRoot()
   }
 
-  /// 16-bit 单声道 WAV
-  nonisolated private static func makeWAV(samples: [Int16], sampleRate: Int) -> Data {
+  /// 16-bit 单声道 WAV；录音偏小时做峰值归一化，避免 ASR 听不清
+  nonisolated private static func makeWAV(samples rawSamples: [Int16], sampleRate: Int) -> Data {
+    var samples = rawSamples
+    var peak = 0
+    for sample in samples {
+      peak = max(peak, abs(Int(sample)))
+    }
+    if peak > 0, peak < 24_000 {
+      let gain = min(6.0, 24_000.0 / Double(peak))
+      for index in samples.indices {
+        samples[index] = Int16(clamping: Int(Double(samples[index]) * gain))
+      }
+    }
     var data = Data()
     let byteCount = samples.count * 2
     func append32(_ value: UInt32) { withUnsafeBytes(of: value.littleEndian) { data.append(contentsOf: $0) } }
