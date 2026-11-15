@@ -7,6 +7,7 @@ import SwiftUI
 @MainActor
 @Observable
 final class VoiceSession {
+  static let shared = VoiceSession()
   enum Status: Equatable {
     case idle
     case starting
@@ -175,6 +176,18 @@ final class VoiceSession {
     asrTask = Task { await self.processUtterance(Self.makeWAV(samples: samples, sampleRate: 16_000)) }
   }
 
+  /// 自检用：把一段现成的 WAV 直接当成"用户说的一句话"送进识别
+  func injectUtterance(wav: Data) {
+    guard running else {
+      DLog.log("inject skipped: session not running")
+      return
+    }
+    DLog.log("inject utterance bytes=\(wav.count)")
+    turnActive = true
+    bargeMs = 0
+    asrTask = Task { await self.processUtterance(wav) }
+  }
+
   /// 手动打断：停掉朗读和生成，回到倾听
   func interrupt() {
     guard running else { return }
@@ -318,8 +331,12 @@ final class VoiceSession {
     let inputs = session.currentRoute.inputs
       .map { "\($0.portType.rawValue):\($0.portName)" }
       .joined(separator: ", ")
-    DLog.log("audio route out=[\(outputs)] in=[\(inputs)]")
-    routeText = "输出：\(outputs.isEmpty ? "未知" : outputs)"
+    let volume = session.outputVolume
+    let silentHint = session.secondaryAudioShouldBeSilencedHint
+    DLog.log(
+      "audio route out=[\(outputs)] in=[\(inputs)] outputVolume=\(String(format: "%.2f", volume)) silentHint=\(silentHint)"
+    )
+    routeText = "输出：\(outputs.isEmpty ? "未知" : outputs)  音量 \(String(format: "%.0f%%", volume * 100))"
   }
 
   private func observeRouteChanges() {
@@ -334,9 +351,9 @@ final class VoiceSession {
   }
 
   /// 880 Hz / 150 ms 的提示音
-  private func playBeep() {
+  func playBeep() {
     let rate = 24_000.0
-    let frames = Int(rate * 0.15)
+    let frames = Int(rate * 0.3)
     guard
       let buffer = AVAudioPCMBuffer(
         pcmFormat: outputFormat,
@@ -347,7 +364,7 @@ final class VoiceSession {
     buffer.frameLength = AVAudioFrameCount(frames)
     for index in 0..<frames {
       let envelope = min(1.0, Double(min(index, frames - index)) / 400.0)
-      channel[index] = Float(sin(2 * .pi * 880 * Double(index) / rate) * 0.25 * envelope)
+      channel[index] = Float(sin(2 * .pi * 880 * Double(index) / rate) * 0.6 * envelope)
     }
     player.scheduleBuffer(buffer, completionHandler: nil)
     DLog.log("beep scheduled")
@@ -662,13 +679,15 @@ final class VoiceSession {
     else { return }
     buffer.frameLength = AVAudioFrameCount(frameCount)
     guard let channel = buffer.floatChannelData?[0] else { return }
+    // 固定播放增益：手机媒体音量偏低时也能听清（超过 ±1 的软限幅）
+    let gain = 1.8
     data.withUnsafeBytes { raw in
       let bytes = raw.bindMemory(to: UInt8.self)
       for index in 0..<frameCount {
         let low = UInt16(bytes[index * 2])
         let high = UInt16(bytes[index * 2 + 1])
-        let sample = Int16(bitPattern: low | (high << 8))
-        channel[index] = Float(sample) / 32_768
+        let sample = Float(Int16(bitPattern: low | (high << 8))) / 32_768 * Float(gain)
+        channel[index] = max(-1, min(1, sample))
       }
     }
     player.scheduleBuffer(buffer, completionHandler: nil)
@@ -757,7 +776,7 @@ final class VoiceSession {
   }
 
   /// 16-bit 单声道 WAV；录音偏小时做峰值归一化，避免 ASR 听不清
-  nonisolated private static func makeWAV(samples rawSamples: [Int16], sampleRate: Int) -> Data {
+  nonisolated static func makeWAV(samples rawSamples: [Int16], sampleRate: Int) -> Data {
     var samples = rawSamples
     var peak = 0
     for sample in samples {

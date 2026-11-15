@@ -81,6 +81,10 @@ struct RootView: View {
     }
     .task {
       consumePendingRequests()
+      if let mode = VoiceSelfTest.requestedMode {
+        showVoice = true
+        Task { await VoiceSelfTest.run(mode: mode) }
+      }
     }
   }
 

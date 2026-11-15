@@ -3,7 +3,7 @@ import SwiftUI
 /// 全屏语音通话界面
 struct VoiceCallView: View {
   @Environment(\.dismiss) private var dismiss
-  @State private var session = VoiceSession()
+  @State private var session = VoiceSession.shared
 
   private let brand = Color(red: 0.22, green: 0.39, blue: 1.0)
 
@@ -25,6 +25,10 @@ struct VoiceCallView: View {
           .font(.system(size: 9, design: .monospaced))
           .foregroundStyle(.tertiary)
           .padding(.top, 4)
+        Text("听不到声音时，把手机侧面音量调大")
+          .font(.system(size: 9))
+          .foregroundStyle(.tertiary)
+          .padding(.top, 2)
         if !session.routeText.isEmpty {
           Text(session.routeText)
             .font(.system(size: 9, design: .monospaced))

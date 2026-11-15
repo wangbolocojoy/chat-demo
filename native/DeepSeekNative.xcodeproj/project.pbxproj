@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		14662D740EAB0E8D75E460A3 /* SharedConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748C4B097C0B3A25C686F102 /* SharedConfig.swift */; };
+		17DE3339986E37B4A805AAD1 /* VoiceSelfTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803A7795D24FBAFA9D2BE951 /* VoiceSelfTest.swift */; };
 		1E83A65E068FA2634E936C8D /* JSONValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A97DFD4056B850A8F0F0FA7 /* JSONValue.swift */; };
 		24C1DD01B16E5BF1B0D6DFAA /* WidgetsBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D76D06943B7057FB1E58880 /* WidgetsBundle.swift */; };
 		279DEFAC6F62AD51690B5283 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B6EBC6CE19A0EDF683554B /* Settings.swift */; };
@@ -92,6 +93,7 @@
 		69B6EBC6CE19A0EDF683554B /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		726AFBBBB359BB4D012D0065 /* DeepSeekShareExt.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = DeepSeekShareExt.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		748C4B097C0B3A25C686F102 /* SharedConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedConfig.swift; sourceTree = "<group>"; };
+		803A7795D24FBAFA9D2BE951 /* VoiceSelfTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceSelfTest.swift; sourceTree = "<group>"; };
 		9A97DFD4056B850A8F0F0FA7 /* JSONValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONValue.swift; sourceTree = "<group>"; };
 		A17CBB0F26402CF768B4A19F /* DeepSeekNativeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepSeekNativeApp.swift; sourceTree = "<group>"; };
 		A217361D87CA076EDD33F203 /* Diagnostics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diagnostics.swift; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				FFAA280C0ADA74AEA3BE5D03 /* AppIntents.swift */,
+				803A7795D24FBAFA9D2BE951 /* VoiceSelfTest.swift */,
 			);
 			path = System;
 			sourceTree = "<group>";
@@ -437,6 +440,7 @@
 				E716CD3611EBB852B438BB3A /* VoiceActivityAttributes.swift in Sources */,
 				966862049636FD9DBB636E87 /* VoiceActivityManager.swift in Sources */,
 				83F797370B0F6440AC72CF45 /* VoiceCallView.swift in Sources */,
+				17DE3339986E37B4A805AAD1 /* VoiceSelfTest.swift in Sources */,
 				B54864164A1AFE0541B76070 /* VoiceSession.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
