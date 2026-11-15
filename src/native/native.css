@@ -1,0 +1,26 @@
+/*
+ * 原生容器（Capacitor iOS）专用的样式。
+ *
+ * 这里的规则只在 html.capacitor-native 下生效，浏览器里的 Web 版不受影响。
+ */
+
+:root.capacitor-native {
+  /* 设备安全区（刘海、灵动岛、Home Indicator） */
+  --native-safe-top: env(safe-area-inset-top, 0px);
+  --native-safe-right: env(safe-area-inset-right, 0px);
+  --native-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --native-safe-left: env(safe-area-inset-left, 0px);
+}
+
+/* 键盘弹出时 WebView 已经被原生收缩到键盘上方，底部安全区不再需要预留 */
+:root.capacitor-native.keyboard-open {
+  --native-safe-bottom: 0px;
+  --native-safe-left: 0px;
+  --native-safe-right: 0px;
+}
+
+/* 原生容器里页面本身不滚动（由容器内的滚动区域负责），避免橡皮筋露出白边 */
+:root.capacitor-native,
+:root.capacitor-native body {
+  overscroll-behavior: none;
+}

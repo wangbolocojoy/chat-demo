@@ -10,9 +10,22 @@
     "build": "rm -rf dist && NODE_ENV=production rspack build -c rspack.config.ts",
     "type": "tsc -p tsconfig.json",
     "lint": "oxlint src rspack.config.ts",
-    "format": "oxfmt --write ."
+    "format": "oxfmt --write .",
+    "ios:sync": "pnpm build && cap sync ios",
+    "ios:open": "cap open ios",
+    "ios:build": "pnpm ios:sync && xcodebuild -project ios/App/App.xcodeproj -scheme App -sdk iphonesimulator -configuration Debug -derivedDataPath .derivedData CODE_SIGNING_ALLOWED=NO build",
+    "ios:sim": "pnpm ios:build && bash scripts/ios-sim.sh"
   },
   "dependencies": {
+    "@capacitor/app": "^8.1.2",
+    "@capacitor/browser": "^8.0.5",
+    "@capacitor/core": "^8.6.2",
+    "@capacitor/filesystem": "^8.1.5",
+    "@capacitor/ios": "^8.6.2",
+    "@capacitor/keyboard": "^8.0.6",
+    "@capacitor/share": "^8.0.3",
+    "@capacitor/splash-screen": "^8.0.2",
+    "@capacitor/status-bar": "^8.0.4",
     "@types/katex": "^0.16.5",
     "@types/mdast": "~4.0.3",
     "@types/prismjs": "^1.26.1",
@@ -35,6 +48,7 @@
     "zustand": "4.4.7"
   },
   "devDependencies": {
+    "@capacitor/cli": "^8.6.2",
     "@rspack/cli": "2.0.2",
     "@rspack/core": "2.0.2",
     "@rspack/dev-server": "2.0.1",

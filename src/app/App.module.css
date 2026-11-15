@@ -1,6 +1,9 @@
 .frame {
   position: absolute;
-  inset: 0;
+  /* --native-safe-* 在浏览器里不存在，回退到 0，Web 版布局不变 */
+  inset:
+    var(--native-safe-top, 0px) var(--native-safe-right, 0px) var(--native-safe-bottom, 0px)
+    var(--native-safe-left, 0px);
   display: flex;
   overflow: hidden;
   background-color: var(--dsw-alias-bg-base);
@@ -55,8 +58,14 @@
 @media not all and (min-width: 768px) {
   .frame {
     position: fixed;
+    left: var(--native-safe-left, 0px);
+    right: var(--native-safe-right, 0px);
+    /* 原生容器里页面铺到状态栏下面，用内边距让出安全区，状态栏背景就是页面底色 */
     top: var(--app-viewport-top, 0px);
     bottom: auto;
+    box-sizing: border-box;
     height: var(--app-viewport-height, 100dvh);
+    padding-top: var(--native-safe-top, 0px);
+    padding-bottom: var(--native-safe-bottom, 0px);
   }
 }

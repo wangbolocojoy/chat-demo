@@ -9,3 +9,9 @@ build/
 .env.*
 !.env.example
 tmp/
+
+# Capacitor / Xcode 构建产物
+.derivedData/
+.derivedDataUITests/
+.screenshots/
+ios/App/build/
