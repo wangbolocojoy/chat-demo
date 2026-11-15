@@ -27,6 +27,7 @@
 		966862049636FD9DBB636E87 /* VoiceActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC049416B5BEC83FCC6C102 /* VoiceActivityManager.swift */; };
 		A5A3780B99829D3E6DEECFD5 /* RecentSessions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39209FF19C5B1D2640BECFD6 /* RecentSessions.swift */; };
 		ADEEB6460C2BD2D842431ECF /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4AD11DFD9082F25CBB6945 /* ChatView.swift */; };
+		B289BBFF5986AA591AAE161B /* Diagnostics.swift in Sources */ = {isa = PBXBuildFile; fileRef = A217361D87CA076EDD33F203 /* Diagnostics.swift */; };
 		B54864164A1AFE0541B76070 /* VoiceSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = C597CF0D10F0342885610BB5 /* VoiceSession.swift */; };
 		B9F697814C8FD3FF113859D4 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57612326A10398660AB04D4 /* Models.swift */; };
 		BCE775F4C8B9DDA1E4AF2610 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56F186BB7EA2CDB348B1D8F /* APIClient.swift */; };
@@ -93,6 +94,7 @@
 		748C4B097C0B3A25C686F102 /* SharedConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedConfig.swift; sourceTree = "<group>"; };
 		9A97DFD4056B850A8F0F0FA7 /* JSONValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONValue.swift; sourceTree = "<group>"; };
 		A17CBB0F26402CF768B4A19F /* DeepSeekNativeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepSeekNativeApp.swift; sourceTree = "<group>"; };
+		A217361D87CA076EDD33F203 /* Diagnostics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diagnostics.swift; sourceTree = "<group>"; };
 		A8E4A70E45B5740D8BDD470E /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		BA41A2AD67BABC5176CCC9CF /* QuickAskWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAskWidget.swift; sourceTree = "<group>"; };
 		C103D6897D143CD4FBCFA892 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -250,6 +252,7 @@
 			children = (
 				C56F186BB7EA2CDB348B1D8F /* APIClient.swift */,
 				4FD956A99AD7127ABA41E3C5 /* ChatStore.swift */,
+				A217361D87CA076EDD33F203 /* Diagnostics.swift */,
 				9A97DFD4056B850A8F0F0FA7 /* JSONValue.swift */,
 				205DB6A52B5E8F7E3FF5D8B7 /* Keychain.swift */,
 				D57612326A10398660AB04D4 /* Models.swift */,
@@ -420,6 +423,7 @@
 				5200A9268601A15263A1B9B7 /* ChatStore.swift in Sources */,
 				ADEEB6460C2BD2D842431ECF /* ChatView.swift in Sources */,
 				BD3F7591F0E08AC92AC3DA33 /* DeepSeekNativeApp.swift in Sources */,
+				B289BBFF5986AA591AAE161B /* Diagnostics.swift in Sources */,
 				1E83A65E068FA2634E936C8D /* JSONValue.swift in Sources */,
 				377773C80EC4B1855BC06D5E /* Keychain.swift in Sources */,
 				B9F697814C8FD3FF113859D4 /* Models.swift in Sources */,

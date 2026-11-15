@@ -107,7 +107,8 @@ final class ChatStore {
   func send(
     _ text: String,
     attachments: [ChatAttachment] = [],
-    onDelta: ((String) -> Void)? = nil
+    onDelta: ((String) -> Void)? = nil,
+    onFinish: (() -> Void)? = nil
   ) async {
     let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
     guard !trimmed.isEmpty || !attachments.isEmpty else { return }
@@ -139,7 +140,8 @@ final class ChatStore {
       assistantID: assistantMessage.id,
       wireMessages: wire,
       firstUserText: trimmed.isEmpty ? "图片" : trimmed,
-      onDelta: onDelta
+      onDelta: onDelta,
+      onFinish: onFinish
     )
   }
 
@@ -170,7 +172,8 @@ final class ChatStore {
       assistantID: assistant.id,
       wireMessages: wire,
       firstUserText: question.text,
-      onDelta: nil
+      onDelta: nil,
+      onFinish: nil
     )
   }
 
@@ -214,7 +217,8 @@ final class ChatStore {
     assistantID: UUID,
     wireMessages: [WireMessage],
     firstUserText: String,
-    onDelta: ((String) -> Void)?
+    onDelta: ((String) -> Void)?,
+    onFinish: (() -> Void)? = nil
   ) {
     blockBuffers = [:]
     let tools: [APIClient.ToolSpec] = settings.searchEnabled
@@ -224,6 +228,7 @@ final class ChatStore {
       ]
       : [APIClient.ToolSpec(type: "deepseek_read_url", name: "deepseek_read_url")]
 
+    DLog.log("chat stream start tools=\(tools.map(\.name).joined(separator: ",")) messages=\(wireMessages.count)")
     let client = APIClient(origin: settings.origin, apiKey: settings.apiKey)
     let stream = client.streamReply(
       system: Self.systemPrompt,
@@ -251,6 +256,8 @@ final class ChatStore {
       self.streamTask = nil
       self.autoTitleIfNeeded(sessionID: sessionID, firstUserText: firstUserText)
       self.persist()
+      onFinish?()
+      DLog.log("chat stream finished")
     }
   }
 

@@ -21,6 +21,10 @@ struct VoiceCallView: View {
         Spacer(minLength: 12)
         orb
         status
+        Text(session.debugLine)
+          .font(.system(size: 9, design: .monospaced))
+          .foregroundStyle(.tertiary)
+          .padding(.top, 4)
         if let errorText = session.errorText {
           Text(errorText)
             .font(.footnote)
@@ -30,7 +34,7 @@ struct VoiceCallView: View {
             .background(Color.red.opacity(0.1), in: RoundedRectangle(cornerRadius: 10))
             .padding(.top, 8)
         }
-        Text("说完停顿一下就行，我说话的时候你也可以插话")
+        Text(session.manualMode ? "按住下方按钮说话；也可以直接说，说完停顿一下" : "说完停顿一下就行，我说话的时候你也可以插话")
           .font(.footnote)
           .foregroundStyle(.secondary)
           .multilineTextAlignment(.center)
@@ -168,6 +172,8 @@ struct VoiceCallView: View {
       }
       .accessibilityIdentifier("toggle-mute")
 
+      talkButton
+
       Button {
         session.stop()
         dismiss()
@@ -181,5 +187,27 @@ struct VoiceCallView: View {
       .accessibilityIdentifier("end-voice")
     }
     .padding(.top, 10)
+  }
+
+  /// 按住说话：手动录音，不依赖 VAD
+  private var talkButton: some View {
+    Text(session.manualRecording ? "松开发送" : "按住说话")
+      .font(.subheadline.weight(.semibold))
+      .foregroundStyle(.white)
+      .frame(width: 104, height: 58)
+      .background(session.manualRecording ? Color.red : brand, in: Capsule())
+      .contentShape(Capsule())
+      .gesture(
+        DragGesture(minimumDistance: 0)
+          .onChanged { _ in
+            if !session.manualRecording, session.status == .listening {
+              session.beginManualUtterance()
+            }
+          }
+          .onEnded { _ in
+            session.endManualUtterance()
+          }
+      )
+      .accessibilityIdentifier("push-to-talk")
   }
 }

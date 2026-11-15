@@ -93,6 +93,13 @@ struct SettingsView: View {
           }
         }
 
+        Section("诊断") {
+          NavigationLink("语音诊断日志") {
+            DebugLogView()
+          }
+          LabeledContent("接口地址", value: settings.origin.absoluteString)
+        }
+
         Section("系统集成") {
           LabeledContent("Siri / 快捷指令", value: "“问 DeepSeek”")
           LabeledContent("语音对话", value: "“用 DeepSeek 语音对话”")
@@ -162,4 +169,50 @@ struct ShareSheet: UIViewControllerRepresentable {
   }
 
   func updateUIViewController(_ controller: UIActivityViewController, context: Context) {}
+}
+
+
+/// 语音链路的诊断日志：出问题时可以在这里看到每一步的状态
+struct DebugLogView: View {
+  @State private var text = ""
+  @State private var shareItem: ShareItem?
+
+  var body: some View {
+    ScrollView {
+      Text(text.isEmpty ? "加载中…" : text)
+        .font(.system(.caption2, design: .monospaced))
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(12)
+        .textSelection(.enabled)
+    }
+    .navigationTitle("诊断日志")
+    .toolbar {
+      ToolbarItemGroup(placement: .topBarTrailing) {
+        Button {
+          text = DLog.read()
+        } label: {
+          Image(systemName: "arrow.clockwise")
+        }
+        Button {
+          DLog.clear()
+          text = DLog.read()
+        } label: {
+          Image(systemName: "trash")
+        }
+        if let url = DLog.logURL {
+          Button {
+            shareItem = ShareItem(url: url)
+          } label: {
+            Image(systemName: "square.and.arrow.up")
+          }
+          .sheet(item: $shareItem) { item in
+            ShareSheet(items: [item.url])
+          }
+        }
+      }
+    }
+    .onAppear {
+      text = DLog.read()
+    }
+  }
 }

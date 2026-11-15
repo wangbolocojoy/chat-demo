@@ -16,10 +16,20 @@ final class VoiceSession {
   }
 
   var status: Status = .idle {
-    didSet { syncActivity() }
+    didSet {
+      DLog.log("voice status -> \(status)")
+      syncActivity()
+    }
   }
   var level: Double = 0
   var muted = false
+  /// 手动模式：按住说话，不走 VAD（真机上 VAD 不灵时的兜底）
+  var manualMode = true
+  var manualRecording = false
+  /// 界面上展示的实时诊断信息
+  var debugLine = ""
+
+  private var lastDebugAt = Date.distantPast
   var userText = ""
   var assistantText = ""
   var errorText: String?
@@ -48,6 +58,9 @@ final class VoiceSession {
   private var preRollMs = 0
   private var utterance: [Int16] = []
   private var utteranceMs = 0
+  private var frameCount = 0
+  private var lastRms: Double = 0
+  private var loggedFirstDelta = false
 
   // 回答回合
   private var turnActive = false
@@ -69,15 +82,19 @@ final class VoiceSession {
   // MARK: - 生命周期
 
   func start() async {
+    DLog.log("voice start requested hasKey=\(settings.hasAPIKey) origin=\(settings.origin.absoluteString)")
     guard !running else { return }
     guard settings.hasAPIKey else {
       errorText = "请先在设置里填写 API Key"
+      DLog.log("voice start aborted: no api key")
       return
     }
     status = .starting
     errorText = nil
 
-    guard await requestMicrophone() else {
+    let granted = await requestMicrophone()
+    DLog.log("voice mic permission granted=\(granted)")
+    guard granted else {
       errorText = "无法使用麦克风，请到系统设置里允许 DeepSeek 访问麦克风"
       status = .idle
       return
@@ -85,8 +102,10 @@ final class VoiceSession {
 
     do {
       try startEngine()
+      DLog.log("voice engine started")
     } catch {
       errorText = "音频通道启动失败：\(error.localizedDescription)"
+      DLog.log("voice engine start failed: \(error)")
       status = .idle
       return
     }
@@ -119,6 +138,37 @@ final class VoiceSession {
 
   func setMuted(_ value: Bool) {
     muted = value
+  }
+
+  /// 手动模式：按下开始收音
+  func beginManualUtterance() {
+    guard running, !turnActive else { return }
+    DLog.log("manual listen start")
+    manualRecording = true
+    capturing = true
+    utterance.removeAll()
+    utteranceMs = 0
+    silenceMs = 0
+    speechMs = 0
+    userText = "（正在听你说…）"
+    status = .listening
+  }
+
+  /// 手动模式：松手结束收音并进入识别
+  func endManualUtterance() {
+    guard running, manualRecording else { return }
+    manualRecording = false
+    DLog.log("manual listen end durationMs=\(utteranceMs)")
+    let samples = utterance
+    let duration = utteranceMs
+    resetVad()
+    userText = ""
+    guard duration >= 250 else {
+      errorText = "没录到声音，靠近一点再说一次"
+      DLog.log("manual listen too short")
+      return
+    }
+    asrTask = Task { await self.processUtterance(Self.makeWAV(samples: samples, sampleRate: 16_000)) }
   }
 
   /// 手动打断：停掉朗读和生成，回到倾听
@@ -198,12 +248,34 @@ final class VoiceSession {
 
   private func startEngine() throws {
     let session = AVAudioSession.sharedInstance()
-    try session.setCategory(
-      .playAndRecord,
-      mode: .voiceChat,
-      options: [.defaultToSpeaker, .allowBluetooth]
-    )
-    try session.setActive(true)
+    let attempts: [(AVAudioSession.Category, AVAudioSession.Mode, AVAudioSession.CategoryOptions)] = [
+      (.playAndRecord, .voiceChat, [.defaultToSpeaker, .allowBluetooth]),
+      (.playAndRecord, .voiceChat, [.defaultToSpeaker]),
+      (.playAndRecord, .voiceChat, []),
+      (.playAndRecord, .default, [.defaultToSpeaker]),
+    ]
+    var configured = false
+    var lastError: Error?
+    for (category, mode, options) in attempts {
+      do {
+        try session.setCategory(category, mode: mode, options: options)
+        configured = true
+        DLog.log("audio session ok category=\(category.rawValue) mode=\(mode.rawValue) options=\(options.rawValue)")
+        break
+      } catch {
+        lastError = error
+        DLog.log("audio session failed category=\(category.rawValue) mode=\(mode.rawValue): \(error)")
+      }
+    }
+    guard configured else {
+      throw lastError ?? NSError(domain: "VoiceSession", code: 2, userInfo: [NSLocalizedDescriptionKey: "无法配置音频会话"])
+    }
+    do {
+      try session.setActive(true)
+    } catch {
+      DLog.log("audio session activate failed: \(error)")
+      throw error
+    }
 
     if !playerAttached {
       engine.attach(player)
@@ -222,10 +294,33 @@ final class VoiceSession {
     input.installTap(onBus: 0, bufferSize: 1_024, format: hardwareFormat) { [weak self] buffer, _ in
       self?.handleHardwareBuffer(buffer)
     }
+    DLog.log("mic format sr=\(hardwareFormat.sampleRate) ch=\(hardwareFormat.channelCount) route=\(AVAudioSession.sharedInstance().currentRoute.inputs.first?.portName ?? "?")")
 
     engine.prepare()
     try engine.start()
     player.play()
+    // 开始通话时播一个短提示音，顺便验证扬声器通路
+    playBeep()
+  }
+
+  /// 880 Hz / 150 ms 的提示音
+  private func playBeep() {
+    let rate = 24_000.0
+    let frames = Int(rate * 0.15)
+    guard
+      let buffer = AVAudioPCMBuffer(
+        pcmFormat: outputFormat,
+        frameCapacity: AVAudioFrameCount(frames)
+      ),
+      let channel = buffer.floatChannelData?[0]
+    else { return }
+    buffer.frameLength = AVAudioFrameCount(frames)
+    for index in 0..<frames {
+      let envelope = min(1.0, Double(min(index, frames - index)) / 400.0)
+      channel[index] = Float(sin(2 * .pi * 880 * Double(index) / rate) * 0.25 * envelope)
+    }
+    player.scheduleBuffer(buffer, completionHandler: nil)
+    DLog.log("beep scheduled")
   }
 
   private func teardownEngine() {
@@ -288,6 +383,18 @@ final class VoiceSession {
     guard running else { return }
     let rms = Self.rms(of: samples)
     updateLevel(rms)
+    frameCount += 1
+    lastRms = rms
+    if Date().timeIntervalSince(lastDebugAt) > 0.4 {
+      lastDebugAt = Date()
+      debugLine = String(
+        format: "frames=%d  rms=%.3f  floor=%.3f  turn=%@  manual=%@",
+        frameCount, rms, noiseFloor, turnActive ? "Y" : "N", manualRecording ? "Y" : "N"
+      )
+    }
+    if frameCount % 60 == 0 {
+      DLog.log("audio frames=\(frameCount) rms=\(String(format: "%.4f", rms)) floor=\(String(format: "%.4f", noiseFloor)) turn=\(turnActive)")
+    }
     if !capturing && rms < noiseFloor * 2 {
       noiseFloor = noiseFloor * 0.97 + rms * 0.03
     }
@@ -295,6 +402,17 @@ final class VoiceSession {
 
     if turnActive {
       handleTurnFrame(rms)
+      return
+    }
+    if manualRecording {
+      utterance.append(contentsOf: samples)
+      utteranceMs += frameMs
+      silenceMs += frameMs
+      if (lastRms < max(noiseFloor * 2.5, speechThreshold) && utteranceMs > 1_500)
+        || utteranceMs >= 30_000
+      {
+        endManualUtterance()
+      }
       return
     }
     guard !muted else { return }
@@ -353,6 +471,7 @@ final class VoiceSession {
   }
 
   private func startUtterance() {
+    DLog.log("utterance start")
     capturing = true
     utterance = preRoll
     utteranceMs = preRollMs
@@ -363,6 +482,7 @@ final class VoiceSession {
   }
 
   private func finishUtterance() {
+    DLog.log("utterance end durationMs=\(utteranceMs)")
     let samples = utterance
     let duration = utteranceMs
     resetVad()
@@ -375,9 +495,11 @@ final class VoiceSession {
     turnActive = true
     bargeMs = 0
     status = .thinking
+    DLog.log("asr start bytes=\(wav.count)")
     let client = APIClient(origin: settings.origin, apiKey: settings.apiKey)
     do {
       let text = try await client.transcribe(wav: wav).trimmingCharacters(in: .whitespacesAndNewlines)
+      DLog.log("asr result: \(text.isEmpty ? "<empty>" : text)")
       guard running, !Task.isCancelled else { return }
       guard !text.isEmpty else {
         abortTurn()
@@ -387,9 +509,11 @@ final class VoiceSession {
       }
       userText = text
       assistantText = ""
+      loggedFirstDelta = false
       errorText = nil
       beginTurn(text: text)
     } catch {
+      DLog.log("asr failed: \(error)")
       guard !Task.isCancelled else { return }
       fail(error)
     }
@@ -407,21 +531,32 @@ final class VoiceSession {
     if store.activeSession == nil {
       store.newSession()
     }
+    DLog.log("voice turn send: \(text)")
 
     chatTask = Task { [weak self] in
       guard let self else { return }
-      await self.store.send(text, onDelta: { fullText in
-        self.handleAssistantDelta(fullText)
-      })
-      guard self.running, !Task.isCancelled else { return }
-      self.generationDone = true
-      self.drainSentences(flush: true)
-      self.maybeFinishTurn()
+      await self.store.send(
+        text,
+        onDelta: { fullText in
+          self.handleAssistantDelta(fullText)
+        },
+        onFinish: { [weak self] in
+          guard let self else { return }
+          DLog.log("voice generation finished")
+          self.generationDone = true
+          self.drainSentences(flush: true)
+          self.maybeFinishTurn()
+        }
+      )
     }
   }
 
   private func handleAssistantDelta(_ fullText: String) {
     guard running else { return }
+    if !loggedFirstDelta, !fullText.isEmpty {
+      loggedFirstDelta = true
+      DLog.log("assistant first delta")
+    }
     assistantText = fullText
     guard fullText.count > spokenCount else { return }
     let start = fullText.index(fullText.startIndex, offsetBy: spokenCount)
@@ -467,6 +602,7 @@ final class VoiceSession {
       while self.running, !Task.isCancelled, !self.ttsQueue.isEmpty {
         let sentence = self.ttsQueue.removeFirst()
         self.status = .speaking
+        DLog.log("tts sentence: \(sentence)")
         do {
           for try await chunk in client.synthesize(text: sentence, voice: voice) {
             if Task.isCancelled { return }
@@ -474,6 +610,7 @@ final class VoiceSession {
           }
         } catch {
           if !Task.isCancelled {
+            DLog.log("tts failed: \(error)")
             self.fail(error)
           }
           return
@@ -566,6 +703,7 @@ final class VoiceSession {
   }
 
   private func fail(_ error: Error) {
+    DLog.log("voice fail: \(error)")
     abortTurn()
     guard running else { return }
     errorText = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription

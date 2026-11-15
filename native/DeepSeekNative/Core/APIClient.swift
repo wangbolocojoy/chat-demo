@@ -42,9 +42,11 @@ struct APIClient {
 
   private func validate(_ response: URLResponse) async throws -> HTTPURLResponse {
     guard let http = response as? HTTPURLResponse else {
+      DLog.log("http invalid response")
       throw APIError(message: "响应格式异常", status: nil)
     }
     guard (200..<300).contains(http.statusCode) else {
+      DLog.log("http \(http.statusCode) for \(http.url?.path ?? "?")")
       throw APIError(message: Self.errorMessage(status: http.statusCode), status: http.statusCode)
     }
     return http
