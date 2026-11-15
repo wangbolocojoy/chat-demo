@@ -1,5 +1,6 @@
 import UIKit
 import Capacitor
+import CapApp_SPM
 import WebKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -13,6 +14,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
 
         configureWebView()
+        registerVoiceDuplex()
 
         SceneDelegateProxy.shared.scene(scene, willConnectTo: session, options: connectionOptions)
     }
@@ -34,6 +36,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             scrollView.leftEdgeEffect.isHidden = true
             scrollView.rightEdgeEffect.isHidden = true
         }
+    }
+
+    /// 全双工语音用的原生音频通道（Capacitor 只会自动注册 node_modules 里的插件）
+    private func registerVoiceDuplex() {
+        guard
+            let bridge = (window?.rootViewController as? CAPBridgeViewController)?.bridge
+                as? CapacitorBridge
+        else {
+            return
+        }
+        bridge.registerPluginInstance(VoiceDuplexPlugin())
     }
 
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {

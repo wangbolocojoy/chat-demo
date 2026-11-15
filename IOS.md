@@ -10,6 +10,9 @@
 | iOS 原生工程（Xcode，SPM 依赖，无需 CocoaPods） | `ios/App/` |
 | 安全区 / 状态栏 / 键盘 / 外链 / 启动图的初始化 | `src/native/index.ts`、`src/native/native.css` |
 | 导出 ZIP 改为系统分享面板（WKWebView 不支持 Blob 下载） | `src/native/share.ts`、`SettingsDialog.tsx` |
+| 全双工语音：原生音频通道（AEC + 外放） | `ios/App/CapApp-SPM/Sources/CapApp-SPM/VoiceDuplexPlugin.swift` |
+| 全双工语音：VAD / 打断 / 说话人轮转 | `src/voice/engine.ts`、`src/voice/store.ts` |
+| 全双工语音：全屏通话界面 | `src/voice/VoiceCall.tsx`、`src/voice/VoiceCall.module.css` |
 | App 图标和启动图生成脚本 | `scripts/gen-app-icon.py` |
 | 模拟器一键构建安装截图 | `scripts/ios-sim.sh` |
 | 键盘 / 录音的 UI 冒烟测试 | `ios/AppUITests/` |
@@ -26,6 +29,27 @@
 - **麦克风**：`Info.plist` 已加 `NSMicrophoneUsageDescription`，语音输入走官方 ASR 接口；已于 iOS 27 模拟器验证 `getUserMedia` / 16kHz `AudioContext` 可用。
 - **iOS 26+ 滚动边缘效果**：新系统会在状态栏区域叠加渐变，深色主题下顶部会有一条浅色带，`SceneDelegate.swift` 里已关闭。
 - **图标 / 启动图**：`scripts/gen-app-icon.py` 用 Pillow 生成 1024 图标和 2732 启动图（不依赖外网工具），改色改形状直接改脚本重跑。
+
+## 全双工语音通话
+
+输入框右侧多了一个电话图标（`isNativeApp` 时显示），点开就是全屏通话界面：直接说话，回答会用语音念出来，**它说话的时候你随时可以插话打断**。
+
+实现分成两半：
+
+**原生（Swift）**：`VoiceDuplexPlugin.swift` 用 `AVAudioEngine` 起一个 `AVAudioSessionCategoryPlayAndRecord` + `.voiceChat` 的会话，好处是系统自带回声消除、声音默认走外放，不会像纯 WebView 那样麦克风和播放抢路由。麦克风重采样成 16 kHz / Int16，每 32 ms 通过 Capacitor 事件推给 JS；TTS 的 24 kHz PCM 反过来排队播放，`flush()` 可以立刻掐掉未播完的音频。
+
+**网页（TS）**：`src/voice/engine.ts` 是状态机：
+1. 能量 VAD + 自适应底噪，检测一句话开头（120 ms）和结尾（停顿 700 ms），保留 300 ms 预录，不会吃掉第一个字；
+2. 一句话结束就把这段 WAV 发给 `/v1/tools/asr`，拿到文字后走和打字完全一样的发送流程（`setDraftText` + `sendMessage`），所以会话、标题、历史、分支都照常工作；
+3. 订阅会话里的回答增量，按句号/问号/换行切句（中文长句还会在逗号处断），逐句调 `/v1/tools/tts` 拿 24 kHz PCM 流式播放，第一句合成完就开始出声；
+4. 回答期间持续听：音量超过阈值并持续 320 ms 就判定为打断——立即 `flush()` 丢掉剩余朗读、`stopReply()` 停掉生成、回到倾听，把刚才那句话当成新的一句话处理；
+5. 一轮结束（生成完成 + 音频播完）自动回到倾听，可以一直聊下去。
+
+已知取舍：
+
+- DeepSeek 的 ASR **只有整段识别、没有流式**，所以是「说完停顿才出字」，首句回复延迟大约 1.5–2.5 秒；TTS 是流式的，出声比较快。
+- 回声消除靠系统 `.voiceChat` 模式，外放音量特别大或环境特别吵时仍可能误触发打断，戴耳机最稳。
+- 进入后台会中断音频会话，通话自动结束，暂不支持后台通话。
 
 ## 开发
 

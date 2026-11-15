@@ -9,6 +9,7 @@ import {
 } from '../base/icons.js'
 import { setSearch, setThinking, useSettings } from '../../services/settings.js'
 import { useIsMobile } from '../../app/viewport.js'
+import { isNativeApp } from '../../native/index.js'
 import { sendMessage, stopReply, useChatStore } from '../../services/chat/store.js'
 import {
   addDraftFiles,
@@ -30,6 +31,8 @@ import { ACCEPT, useUploads } from '../../services/attachments.js'
 import { DraftAttachments } from './DraftAttachments.js'
 import { useVoiceInput } from './useVoiceInput.js'
 import { VoiceButton } from './VoiceButton.js'
+import { IconVoiceCallOutline16 } from '../../voice/icons.js'
+import { startVoiceCallFromUi } from '../../voice/VoiceCall.js'
 import { Spectrum } from './Spectrum.js'
 import { useTranslate } from '../../i18n/index.js'
 import styles from './ChatInput.module.css'
@@ -228,6 +231,20 @@ const Input = ({ sessionId }: { sessionId: string | null }) => {
           </Tooltip>
         </div>
         <div className={styles.right}>
+          {isNativeApp ? (
+            <IconButton
+              size="m"
+              tone="primary"
+              icon={<IconVoiceCallOutline16 />}
+              tooltip={t('voiceCall')}
+              disabled={importingHistory || voice.status !== 'idle'}
+              onClick={() => {
+                if (ensureApiKey()) {
+                  startVoiceCallFromUi()
+                }
+              }}
+            />
+          ) : null}
           <VoiceButton
             status={voice.status}
             disabled={!voice.available}

@@ -39,3 +39,38 @@ final class SmokeTests: XCTestCase {
         sleep(14)
     }
 }
+
+extension SmokeTests {
+    /// 全双工语音：点输入框的语音通话入口，确认通话界面出现
+    func testVoiceCallOverlay() {
+        let app = XCUIApplication(bundleIdentifier: "com.aicd.deepseekchat")
+        app.launch()
+        sleep(4)
+
+        let entry = app.buttons["语音通话"]
+        if entry.waitForExistence(timeout: 5) {
+            entry.tap()
+        } else {
+            // 兜底：点输入框左下区域附近的入口
+            app.coordinate(withNormalizedOffset: CGVector(dx: 0.55, dy: 0.843)).tap()
+        }
+
+        // 留时间给外部截图 + 观察音频通道是否建立
+        sleep(14)
+        XCTAssertTrue(app.buttons["结束通话"].exists || app.buttons["Close voice call"].exists)
+    }
+}
+
+extension SmokeTests {
+    /// 打开语音通话后保持倾听，外部播放一段人声验证 VAD / ASR 链路
+    func testVoiceCallCapture() {
+        let app = XCUIApplication(bundleIdentifier: "com.aicd.deepseekchat")
+        app.launch()
+        sleep(4)
+        let entry = app.buttons["语音通话"]
+        if entry.waitForExistence(timeout: 5) {
+            entry.tap()
+        }
+        sleep(30)
+    }
+}
