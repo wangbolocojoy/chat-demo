@@ -7,35 +7,100 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		14662D740EAB0E8D75E460A3 /* SharedConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748C4B097C0B3A25C686F102 /* SharedConfig.swift */; };
+		24C1DD01B16E5BF1B0D6DFAA /* WidgetsBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D76D06943B7057FB1E58880 /* WidgetsBundle.swift */; };
 		279DEFAC6F62AD51690B5283 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B6EBC6CE19A0EDF683554B /* Settings.swift */; };
+		2DEFA471F2631053EAD86983 /* DeepSeekWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 51E7B9D0B547AC270C8B329D /* DeepSeekWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		326B05E73BA02E72730535DD /* DeepSeekShareExt.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 726AFBBBB359BB4D012D0065 /* DeepSeekShareExt.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		377773C80EC4B1855BC06D5E /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205DB6A52B5E8F7E3FF5D8B7 /* Keychain.swift */; };
+		3F42D28AABD10C490FDCA9F4 /* QuickAskWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA41A2AD67BABC5176CCC9CF /* QuickAskWidget.swift */; };
 		41A4DFBDD3F7A7BD2777245F /* AppIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAA280C0ADA74AEA3BE5D03 /* AppIntents.swift */; };
 		4F4AEF2BF0130F9A13B6B53F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F688AAAC75B6B02BFAA09864 /* Assets.xcassets */; };
 		5200A9268601A15263A1B9B7 /* ChatStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD956A99AD7127ABA41E3C5 /* ChatStore.swift */; };
+		56962F9BA1BBD2BAFBAB9FF9 /* VoiceLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F6F82C755C6506EC358B3D /* VoiceLiveActivity.swift */; };
 		599523ABF722CFAE1C764133 /* SSEDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D48D86F214237478A8581C /* SSEDecoder.swift */; };
 		83F4C34E92BF04F7FF10A346 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D8EE4762599D40DC292A2B /* SettingsView.swift */; };
 		83F797370B0F6440AC72CF45 /* VoiceCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFDAC28DBE6A5C6CC74E474 /* VoiceCallView.swift */; };
+		864A029CA51547D7A9A1697C /* SharedConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748C4B097C0B3A25C686F102 /* SharedConfig.swift */; };
+		8E079135311A39E608DECDAE /* RecentSessions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39209FF19C5B1D2640BECFD6 /* RecentSessions.swift */; };
+		966862049636FD9DBB636E87 /* VoiceActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC049416B5BEC83FCC6C102 /* VoiceActivityManager.swift */; };
+		A5A3780B99829D3E6DEECFD5 /* RecentSessions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39209FF19C5B1D2640BECFD6 /* RecentSessions.swift */; };
 		ADEEB6460C2BD2D842431ECF /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4AD11DFD9082F25CBB6945 /* ChatView.swift */; };
 		B54864164A1AFE0541B76070 /* VoiceSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = C597CF0D10F0342885610BB5 /* VoiceSession.swift */; };
 		B9F697814C8FD3FF113859D4 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57612326A10398660AB04D4 /* Models.swift */; };
 		BCE775F4C8B9DDA1E4AF2610 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56F186BB7EA2CDB348B1D8F /* APIClient.swift */; };
 		BD3F7591F0E08AC92AC3DA33 /* DeepSeekNativeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17CBB0F26402CF768B4A19F /* DeepSeekNativeApp.swift */; };
+		C1569F7D85CB9F63B201A04E /* VoiceActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EA35219C61B4461C82EEB4 /* VoiceActivityAttributes.swift */; };
+		C736D87902350E851250B0EB /* SpotlightIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5413F8B0956CEA9EF2C26115 /* SpotlightIndexer.swift */; };
+		CCF57D9EDA77E93FAE7BAD40 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5445638CD9D435E8D40B89 /* ShareViewController.swift */; };
+		CF743E6C31DAFE1908215099 /* RecentSessions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39209FF19C5B1D2640BECFD6 /* RecentSessions.swift */; };
+		D739CEC751B6DAA472A6C9FE /* SharedConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748C4B097C0B3A25C686F102 /* SharedConfig.swift */; };
 		DD39BDA13F1516FC1A87656B /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E4A70E45B5740D8BDD470E /* RootView.swift */; };
+		E4B57EAFCA60AE03F38D8E2D /* VoiceActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EA35219C61B4461C82EEB4 /* VoiceActivityAttributes.swift */; };
+		E716CD3611EBB852B438BB3A /* VoiceActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EA35219C61B4461C82EEB4 /* VoiceActivityAttributes.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		41C1D9559FC0DA817602145B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3EEF150F13C847F9E2E8703D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C3A2D27C89CBB5F577A212F5;
+			remoteInfo = DeepSeekShareExt;
+		};
+		C182A46A95F7992BFB4FEB41 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3EEF150F13C847F9E2E8703D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6889504303919A3A7F6FE033;
+			remoteInfo = DeepSeekWidgets;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		07852947C5BB8B127B4F235A /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				2DEFA471F2631053EAD86983 /* DeepSeekWidgets.appex in Embed Foundation Extensions */,
+				326B05E73BA02E72730535DD /* DeepSeekShareExt.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		08D8EE4762599D40DC292A2B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		13DFA59AD63161ED55928CD0 /* DeepSeekNative.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = DeepSeekNative.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1AC049416B5BEC83FCC6C102 /* VoiceActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceActivityManager.swift; sourceTree = "<group>"; };
 		1B13FBACCA045499BAE5682E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		1D76D06943B7057FB1E58880 /* WidgetsBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetsBundle.swift; sourceTree = "<group>"; };
 		205DB6A52B5E8F7E3FF5D8B7 /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
+		39209FF19C5B1D2640BECFD6 /* RecentSessions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSessions.swift; sourceTree = "<group>"; };
+		39EFA422F20D01B3B2908B94 /* DeepSeekNative.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DeepSeekNative.entitlements; sourceTree = "<group>"; };
+		4AF41911CF9A21A816C5EB39 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		4FD956A99AD7127ABA41E3C5 /* ChatStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatStore.swift; sourceTree = "<group>"; };
+		51E7B9D0B547AC270C8B329D /* DeepSeekWidgets.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = DeepSeekWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		5413F8B0956CEA9EF2C26115 /* SpotlightIndexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotlightIndexer.swift; sourceTree = "<group>"; };
+		55F6F82C755C6506EC358B3D /* VoiceLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceLiveActivity.swift; sourceTree = "<group>"; };
+		5F5445638CD9D435E8D40B89 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		69B6EBC6CE19A0EDF683554B /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		726AFBBBB359BB4D012D0065 /* DeepSeekShareExt.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = DeepSeekShareExt.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		748C4B097C0B3A25C686F102 /* SharedConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedConfig.swift; sourceTree = "<group>"; };
 		A17CBB0F26402CF768B4A19F /* DeepSeekNativeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepSeekNativeApp.swift; sourceTree = "<group>"; };
 		A8E4A70E45B5740D8BDD470E /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		BA41A2AD67BABC5176CCC9CF /* QuickAskWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAskWidget.swift; sourceTree = "<group>"; };
+		C103D6897D143CD4FBCFA892 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		C56F186BB7EA2CDB348B1D8F /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		C597CF0D10F0342885610BB5 /* VoiceSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceSession.swift; sourceTree = "<group>"; };
+		CFB1B4AF2BC57CFA9682039D /* ShareExt.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShareExt.entitlements; sourceTree = "<group>"; };
 		D57612326A10398660AB04D4 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		D8D48D86F214237478A8581C /* SSEDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSEDecoder.swift; sourceTree = "<group>"; };
+		E43B6FFF3E72670094AF793E /* Widgets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Widgets.entitlements; sourceTree = "<group>"; };
+		E6EA35219C61B4461C82EEB4 /* VoiceActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceActivityAttributes.swift; sourceTree = "<group>"; };
 		EA4AD11DFD9082F25CBB6945 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		EEFDAC28DBE6A5C6CC74E474 /* VoiceCallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceCallView.swift; sourceTree = "<group>"; };
 		F688AAAC75B6B02BFAA09864 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -62,12 +127,32 @@
 			path = Features;
 			sourceTree = "<group>";
 		};
+		2D2A3BBC2F47E076D73849C7 /* Entitlements */ = {
+			isa = PBXGroup;
+			children = (
+				39EFA422F20D01B3B2908B94 /* DeepSeekNative.entitlements */,
+			);
+			path = Entitlements;
+			sourceTree = "<group>";
+		};
 		42425CC35B794F5C3CBD0004 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				13DFA59AD63161ED55928CD0 /* DeepSeekNative.app */,
+				726AFBBBB359BB4D012D0065 /* DeepSeekShareExt.appex */,
+				51E7B9D0B547AC270C8B329D /* DeepSeekWidgets.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		63E9EF229F1DE6201DBA9D76 /* ShareExt */ = {
+			isa = PBXGroup;
+			children = (
+				C103D6897D143CD4FBCFA892 /* Info.plist */,
+				CFB1B4AF2BC57CFA9682039D /* ShareExt.entitlements */,
+				5F5445638CD9D435E8D40B89 /* ShareViewController.swift */,
+			);
+			path = ShareExt;
 			sourceTree = "<group>";
 		};
 		695EF05D5B9A58AB92E709B3 /* Settings */ = {
@@ -84,6 +169,7 @@
 				1B13FBACCA045499BAE5682E /* Info.plist */,
 				0A6BCB151F213B00D5C49A20 /* App */,
 				EEF4F5CC971D2754586F4B20 /* Core */,
+				2D2A3BBC2F47E076D73849C7 /* Entitlements */,
 				1FFE3B83F755D5F049F2E2A2 /* Features */,
 				C46376E488A882EEBEC20776 /* Resources */,
 				853C029F09C15C1D01413845 /* System */,
@@ -95,6 +181,9 @@
 			isa = PBXGroup;
 			children = (
 				6BA2BE7F6E1DF3ABF5570240 /* DeepSeekNative */,
+				936A1C50E7E881616A5856A1 /* Shared */,
+				63E9EF229F1DE6201DBA9D76 /* ShareExt */,
+				C6C64148025480DA25D8B5BA /* Widgets */,
 				42425CC35B794F5C3CBD0004 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -105,6 +194,16 @@
 				FFAA280C0ADA74AEA3BE5D03 /* AppIntents.swift */,
 			);
 			path = System;
+			sourceTree = "<group>";
+		};
+		936A1C50E7E881616A5856A1 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				39209FF19C5B1D2640BECFD6 /* RecentSessions.swift */,
+				748C4B097C0B3A25C686F102 /* SharedConfig.swift */,
+				E6EA35219C61B4461C82EEB4 /* VoiceActivityAttributes.swift */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 		A9294E7165A273F8847379B1 /* Chat */ = {
@@ -132,6 +231,18 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		C6C64148025480DA25D8B5BA /* Widgets */ = {
+			isa = PBXGroup;
+			children = (
+				4AF41911CF9A21A816C5EB39 /* Info.plist */,
+				BA41A2AD67BABC5176CCC9CF /* QuickAskWidget.swift */,
+				55F6F82C755C6506EC358B3D /* VoiceLiveActivity.swift */,
+				E43B6FFF3E72670094AF793E /* Widgets.entitlements */,
+				1D76D06943B7057FB1E58880 /* WidgetsBundle.swift */,
+			);
+			path = Widgets;
+			sourceTree = "<group>";
+		};
 		EEF4F5CC971D2754586F4B20 /* Core */ = {
 			isa = PBXGroup;
 			children = (
@@ -140,7 +251,9 @@
 				205DB6A52B5E8F7E3FF5D8B7 /* Keychain.swift */,
 				D57612326A10398660AB04D4 /* Models.swift */,
 				69B6EBC6CE19A0EDF683554B /* Settings.swift */,
+				5413F8B0956CEA9EF2C26115 /* SpotlightIndexer.swift */,
 				D8D48D86F214237478A8581C /* SSEDecoder.swift */,
+				1AC049416B5BEC83FCC6C102 /* VoiceActivityManager.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -154,10 +267,13 @@
 			buildPhases = (
 				BA6AB4F51E47FFF5F17212CB /* Sources */,
 				C9D77586972B31ACDB92C5F6 /* Resources */,
+				07852947C5BB8B127B4F235A /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				66CFE74355F570CAC0C7F910 /* PBXTargetDependency */,
+				1C37CFB30110647AE6460C04 /* PBXTargetDependency */,
 			);
 			name = DeepSeekNative;
 			packageProductDependencies = (
@@ -165,6 +281,40 @@
 			productName = DeepSeekNative;
 			productReference = 13DFA59AD63161ED55928CD0 /* DeepSeekNative.app */;
 			productType = "com.apple.product-type.application";
+		};
+		6889504303919A3A7F6FE033 /* DeepSeekWidgets */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4A700442A082417A7E7F8E58 /* Build configuration list for PBXNativeTarget "DeepSeekWidgets" */;
+			buildPhases = (
+				A283A9153B2E9C951FEC1932 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DeepSeekWidgets;
+			packageProductDependencies = (
+			);
+			productName = DeepSeekWidgets;
+			productReference = 51E7B9D0B547AC270C8B329D /* DeepSeekWidgets.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		C3A2D27C89CBB5F577A212F5 /* DeepSeekShareExt */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4BA1144DC7C029A3FB258F0C /* Build configuration list for PBXNativeTarget "DeepSeekShareExt" */;
+			buildPhases = (
+				35D792707A13549B9DF7C934 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DeepSeekShareExt;
+			packageProductDependencies = (
+			);
+			productName = DeepSeekShareExt;
+			productReference = 726AFBBBB359BB4D012D0065 /* DeepSeekShareExt.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -195,6 +345,8 @@
 			projectRoot = "";
 			targets = (
 				31559E1E782A5D3595570502 /* DeepSeekNative */,
+				C3A2D27C89CBB5F577A212F5 /* DeepSeekShareExt */,
+				6889504303919A3A7F6FE033 /* DeepSeekWidgets */,
 			);
 		};
 /* End PBXProject section */
@@ -211,6 +363,30 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		35D792707A13549B9DF7C934 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8E079135311A39E608DECDAE /* RecentSessions.swift in Sources */,
+				CCF57D9EDA77E93FAE7BAD40 /* ShareViewController.swift in Sources */,
+				864A029CA51547D7A9A1697C /* SharedConfig.swift in Sources */,
+				E4B57EAFCA60AE03F38D8E2D /* VoiceActivityAttributes.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A283A9153B2E9C951FEC1932 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3F42D28AABD10C490FDCA9F4 /* QuickAskWidget.swift in Sources */,
+				A5A3780B99829D3E6DEECFD5 /* RecentSessions.swift in Sources */,
+				14662D740EAB0E8D75E460A3 /* SharedConfig.swift in Sources */,
+				C1569F7D85CB9F63B201A04E /* VoiceActivityAttributes.swift in Sources */,
+				56962F9BA1BBD2BAFBAB9FF9 /* VoiceLiveActivity.swift in Sources */,
+				24C1DD01B16E5BF1B0D6DFAA /* WidgetsBundle.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BA6AB4F51E47FFF5F17212CB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -222,10 +398,15 @@
 				BD3F7591F0E08AC92AC3DA33 /* DeepSeekNativeApp.swift in Sources */,
 				377773C80EC4B1855BC06D5E /* Keychain.swift in Sources */,
 				B9F697814C8FD3FF113859D4 /* Models.swift in Sources */,
+				CF743E6C31DAFE1908215099 /* RecentSessions.swift in Sources */,
 				DD39BDA13F1516FC1A87656B /* RootView.swift in Sources */,
 				599523ABF722CFAE1C764133 /* SSEDecoder.swift in Sources */,
 				279DEFAC6F62AD51690B5283 /* Settings.swift in Sources */,
 				83F4C34E92BF04F7FF10A346 /* SettingsView.swift in Sources */,
+				D739CEC751B6DAA472A6C9FE /* SharedConfig.swift in Sources */,
+				C736D87902350E851250B0EB /* SpotlightIndexer.swift in Sources */,
+				E716CD3611EBB852B438BB3A /* VoiceActivityAttributes.swift in Sources */,
+				966862049636FD9DBB636E87 /* VoiceActivityManager.swift in Sources */,
 				83F797370B0F6440AC72CF45 /* VoiceCallView.swift in Sources */,
 				B54864164A1AFE0541B76070 /* VoiceSession.swift in Sources */,
 			);
@@ -233,11 +414,59 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		1C37CFB30110647AE6460C04 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C3A2D27C89CBB5F577A212F5 /* DeepSeekShareExt */;
+			targetProxy = 41C1D9559FC0DA817602145B /* PBXContainerItemProxy */;
+		};
+		66CFE74355F570CAC0C7F910 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6889504303919A3A7F6FE033 /* DeepSeekWidgets */;
+			targetProxy = C182A46A95F7992BFB4FEB41 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		1A80D761A2FA95C4B05F8369 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = ShareExt/ShareExt.entitlements;
+				INFOPLIST_FILE = ShareExt/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.aicd.deepseeknative.share;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		3223D1C59C85F0F196F93C02 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Widgets/Widgets.entitlements;
+				INFOPLIST_FILE = Widgets/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.aicd.deepseeknative.widgets;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
 		4DEBB964AE737D76E15311EE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = DeepSeekNative/Entitlements/DeepSeekNative.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = DeepSeekNative/Info.plist;
@@ -247,6 +476,40 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.aicd.deepseeknative;
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		56AAFBB812D7CB9751BAABC3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Widgets/Widgets.entitlements;
+				INFOPLIST_FILE = Widgets/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.aicd.deepseeknative.widgets;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		859538F398AFD4E85A158C07 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = ShareExt/ShareExt.entitlements;
+				INFOPLIST_FILE = ShareExt/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.aicd.deepseeknative.share;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -319,6 +582,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = DeepSeekNative/Entitlements/DeepSeekNative.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = DeepSeekNative/Info.plist;
@@ -406,6 +670,24 @@
 			buildConfigurations = (
 				9421167CC166D0E4E48DE5B3 /* Debug */,
 				E99D49A6D88BA8C58CA85674 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		4A700442A082417A7E7F8E58 /* Build configuration list for PBXNativeTarget "DeepSeekWidgets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3223D1C59C85F0F196F93C02 /* Debug */,
+				56AAFBB812D7CB9751BAABC3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		4BA1144DC7C029A3FB258F0C /* Build configuration list for PBXNativeTarget "DeepSeekShareExt" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				859538F398AFD4E85A158C07 /* Debug */,
+				1A80D761A2FA95C4B05F8369 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

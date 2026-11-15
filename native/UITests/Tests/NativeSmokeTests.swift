@@ -46,3 +46,33 @@ final class NativeSmokeTests: XCTestCase {
         sleep(34)
     }
 }
+
+extension NativeSmokeTests {
+    /// 语音通话开始后按 Home，灵动岛/锁屏应当出现 Live Activity
+    func testVoiceLiveActivityInDynamicIsland() {
+        let app = XCUIApplication(bundleIdentifier: "com.aicd.deepseeknative")
+        app.launchEnvironment["DEEPSEEK_BASE_URL"] = "http://127.0.0.1:8099"
+        app.launchEnvironment["DEEPSEEK_API_KEY"] = "mock-key"
+        app.launch()
+        sleep(2)
+        if !app.buttons["open-voice"].exists, app.buttons["BackButton"].exists {
+            app.buttons["BackButton"].tap()
+            sleep(1)
+        }
+        app.buttons["open-voice"].tap()
+        sleep(4)
+        XCUIDevice.shared.press(.home)
+        sleep(12)
+    }
+}
+
+extension NativeSmokeTests {
+    /// 深链：deepseeknative://ask?text=...（分享扩展走这条路径）
+    func testDeepLinkAsk() {
+        let app = XCUIApplication(bundleIdentifier: "com.aicd.deepseeknative")
+        app.launchEnvironment["DEEPSEEK_BASE_URL"] = "http://127.0.0.1:8099"
+        app.launchEnvironment["DEEPSEEK_API_KEY"] = "mock-key"
+        app.launch()
+        sleep(26)
+    }
+}

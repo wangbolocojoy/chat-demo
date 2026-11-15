@@ -15,7 +15,9 @@ final class VoiceSession {
     case speaking
   }
 
-  var status: Status = .idle
+  var status: Status = .idle {
+    didSet { syncActivity() }
+  }
   var level: Double = 0
   var muted = false
   var userText = ""
@@ -160,6 +162,24 @@ final class VoiceSession {
       NotificationCenter.default.removeObserver(interruptionObserver)
       self.interruptionObserver = nil
     }
+  }
+
+  /// 把通话状态同步到锁屏 / 灵动岛
+  private func syncActivity() {
+    if status == .idle {
+      VoiceActivityManager.end()
+      return
+    }
+    VoiceActivityManager.start()
+    let text: String
+    switch status {
+    case .idle: text = ""
+    case .starting: text = "正在连接"
+    case .listening: text = "正在倾听"
+    case .thinking: text = "正在思考"
+    case .speaking: text = "正在回答"
+    }
+    VoiceActivityManager.update(statusText: text, level: level)
   }
 
   // MARK: - 音频引擎

@@ -3,27 +3,20 @@ import AppIntents
 /// 系统级入口：Siri、快捷指令、聚焦都能触发。
 /// 真正的发送交给 App 前台完成，这里只把请求记下来。
 enum PendingIntentStore {
-  static let questionKey = "pending.intent.question"
-  static let voiceKey = "pending.intent.voice"
-
   static func setQuestion(_ question: String) {
-    UserDefaults.standard.set(question, forKey: questionKey)
+    SharedConfig.setPendingQuestion(question)
   }
 
   static func consumeQuestion() -> String? {
-    let question = UserDefaults.standard.string(forKey: questionKey)
-    UserDefaults.standard.removeObject(forKey: questionKey)
-    return question
+    SharedConfig.consumePendingQuestion()
   }
 
   static func setVoice() {
-    UserDefaults.standard.set(true, forKey: voiceKey)
+    SharedConfig.setPendingVoice()
   }
 
   static func consumeVoice() -> Bool {
-    let wants = UserDefaults.standard.bool(forKey: voiceKey)
-    UserDefaults.standard.removeObject(forKey: voiceKey)
-    return wants
+    SharedConfig.consumePendingVoice()
   }
 }
 

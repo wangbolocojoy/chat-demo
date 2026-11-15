@@ -1,5 +1,6 @@
 import Foundation
 import Observation
+import WidgetKit
 
 /// 会话与消息的唯一数据源：负责持久化、发送消息、流式更新。
 @MainActor
@@ -214,6 +215,13 @@ final class ChatStore {
   }
 
   func persist() {
+    RecentSessionsStore.write(
+      sessions.prefix(6).map {
+        SessionSnapshot(id: $0.id, title: $0.displayTitle, preview: $0.preview, updatedAt: $0.updatedAt)
+      }
+    )
+    WidgetCenter.shared.reloadAllTimelines()
+    SpotlightIndexer.reindex(sessions)
     let snapshot = sessions
     saveTask?.cancel()
     saveTask = Task.detached(priority: .utility) {

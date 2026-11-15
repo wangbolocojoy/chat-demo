@@ -1,3 +1,4 @@
+import CoreSpotlight
 import SwiftUI
 
 /// 应用根视图：左边会话列表，右边聊天；设置和语音通话都是覆盖层
@@ -64,6 +65,15 @@ struct RootView: View {
     } message: {
       Text(store.lastError ?? "")
     }
+    .onOpenURL { url in
+      handleDeepLink(url)
+    }
+    .onContinueUserActivity(CSSearchableItemActionType) { activity in
+      if let identifier = activity.userInfo?[CSSearchableItemActivityIdentifier] as? String,
+        let id = SpotlightIndexer.sessionID(from: identifier) {
+        store.select(id)
+      }
+    }
     .onChange(of: scenePhase) { _, phase in
       if phase == .active {
         consumePendingRequests()
@@ -71,6 +81,36 @@ struct RootView: View {
     }
     .task {
       consumePendingRequests()
+    }
+  }
+
+  /// deepseeknative://ask?text=... 或 deepseeknative://voice（Widget、分享扩展用）
+  private func handleDeepLink(_ url: URL) {
+    guard url.scheme == SharedConfig.urlScheme else { return }
+    switch url.host {
+    case "ask":
+      let text = URLComponents(url: url, resolvingAgainstBaseURL: false)?
+        .queryItems?
+        .first(where: { $0.name == "text" })?
+        .value ?? ""
+      if !text.isEmpty {
+        store.newSession()
+        Task { await store.send(text) }
+      }
+    case "voice":
+      showVoice = true
+    case "new":
+      store.newSession()
+    case "session":
+      let idString = URLComponents(url: url, resolvingAgainstBaseURL: false)?
+        .queryItems?
+        .first(where: { $0.name == "id" })?
+        .value ?? ""
+      if let id = UUID(uuidString: idString) {
+        store.select(id)
+      }
+    default:
+      break
     }
   }
 
